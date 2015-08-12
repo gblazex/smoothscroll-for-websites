@@ -21,7 +21,7 @@ var defaultOptions = {
     // Scrolling Core
     frameRate        : 150, // [Hz]
     animationTime    : 400, // [ms]
-    stepSize         : 120, // [px]
+    stepSize         : 100, // [px]
 
     // Pulse (less tweakable)
     // ratio of "tail" to "acceleration"
@@ -30,8 +30,8 @@ var defaultOptions = {
     pulseNormalize   : 1,
 
     // Acceleration
-    accelerationDelta : 20,  // 20
-    accelerationMax   : 1,   // 1
+    accelerationDelta : 50,  // 50
+    accelerationMax   : 3,   // 3
 
     // Keyboard Settings
     keyboardSupport   : true,  // option
