@@ -667,13 +667,20 @@ function pulse(x) {
     return pulse_(x);
 }
 
+var userAgent = window.navigator.userAgent;
+var isEdge    = /Edge/.test(userAgent); // thank you MS
+var isChrome  = /chrome/i.test(userAgent) && !isEdge; 
+var isSafari  = /safari/i.test(userAgent) && !isEdge; 
+var isMobile  = /mobile/i.test(userAgent);
+var isEnabledForBrowser = (isChrome || isSafari) && !isMobile;
+
 var wheelEvent;
 if ('onwheel' in document.createElement('div'))
     wheelEvent = 'wheel';
 else if ('onmousewheel' in document.createElement('div'))
     wheelEvent = 'mousewheel';
 
-if (wheelEvent) {
+if (wheelEvent && isEnabledForBrowser) {
     addEvent(wheelEvent, wheel);
     addEvent('mousedown', mousedown);
     addEvent('load', init);
