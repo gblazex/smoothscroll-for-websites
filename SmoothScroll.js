@@ -1,5 +1,5 @@
 //
-// SmoothScroll for websites v1.3.8 (Balazs Galambosi)
+// SmoothScroll for websites v1.3.9 (Balazs Galambosi)
 // http://www.smoothscroll.net/
 //
 // Licensed under the terms of the MIT license.
