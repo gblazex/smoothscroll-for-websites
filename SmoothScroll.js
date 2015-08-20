@@ -146,6 +146,8 @@ function init() {
         observer = new MutationObserver(refresh);
         observer.observe(body, config);
 
+        addEvent('resize', refresh);
+
         if (root.offsetHeight <= windowHeight) {
             var clearfix = document.createElement('div');   
             clearfix.style.clear = 'both';
