@@ -43,8 +43,6 @@ var defaultOptions = {
     excluded          : ''    
 };
 
-var options = defaultOptions;
-
 
 // Other Variables
 var isExcluded = false;
@@ -62,29 +60,13 @@ var key = { left: 37, up: 38, right: 39, down: 40, spacebar: 32,
 
 
 /***********************************************
- * SETTINGS
- ***********************************************/
-
-var options = defaultOptions;
-
-
-/***********************************************
  * INITIALIZE
  ***********************************************/
 
 /**
- * Tests if smooth scrolling is allowed. Shuts down everything if not.
- */
-function initTest() {
-    if (options.keyboardSupport) {
-        addEvent('keydown', keydown);
-    }
-}
-
-/**
  * Sets up scrolls array, determines if frames are involved.
  */
-function init() {
+function init(options) {
   
     if (initDone || !document.body) return;
 
@@ -98,8 +80,6 @@ function init() {
     // check compat mode for root element
     root = (document.compatMode.indexOf('CSS') >= 0) ? html : body;
     activeElement = body;
-    
-    initTest();
 
     // Checks if this script is running in a frame
     if (top != self) {
@@ -147,7 +127,7 @@ function init() {
         observer.observe(body, config);
 
         if (root.offsetHeight <= windowHeight) {
-            var clearfix = document.createElement('div');   
+            var clearfix = document.createElement('div');
             clearfix.style.clear = 'both';
             body.appendChild(clearfix);
         }
@@ -182,7 +162,7 @@ var lastScroll = Date.now();
 /**
  * Pushes scroll actions to the scrolling queue.
  */
-function scrollArray(elem, left, top) {
+function scrollArray(options, elem, left, top) {
     
     directionCheck(left, top);
 
@@ -233,7 +213,7 @@ function scrollArray(elem, left, top) {
             
             // easing [optional]
             if (options.pulseAlgorithm) {
-                position = pulse(position);
+                position = pulse(options, position);
             }
             
             // only need the difference
@@ -289,12 +269,7 @@ function scrollArray(elem, left, top) {
  * Mouse wheel handler.
  * @param {Object} event
  */
-function wheel(event) {
-
-    if (!initDone) {
-        init();
-    }
-    
+function wheel(options, event) {
     var target = event.target;
     var overflowing = overflowingAncestor(target);
 
@@ -350,7 +325,7 @@ function wheel(event) {
         deltaY *= options.stepSize / 120;
     }
     
-    scrollArray(overflowing, deltaX, deltaY);
+    scrollArray(options, overflowing, deltaX, deltaY);
     event.preventDefault();
     scheduleClearCache();
 }
@@ -359,7 +334,7 @@ function wheel(event) {
  * Keydown event handler.
  * @param {Object} event
  */
-function keydown(event) {
+function keydown(options, event) {
 
     var target   = event.target;
     var modifier = event.ctrlKey || event.altKey || event.metaKey || 
@@ -435,7 +410,7 @@ function keydown(event) {
             return true; // a key we don't care about
     }
 
-    scrollArray(elem, x, y);
+    scrollArray(options, elem, x, y);
     event.preventDefault();
     scheduleClearCache();
 }
@@ -640,7 +615,7 @@ var getScrollRoot = (function() {
  * - Lets the exponential bleed away the velocity over a longer interval
  * - Michael Herf, http://stereopsis.com/stopping/
  */
-function pulse_(x) {
+function pulse_(options, x) {
     var val, start, expx;
     // test
     x = x * options.pulseScale;
@@ -657,14 +632,14 @@ function pulse_(x) {
     return val * options.pulseNormalize;
 }
 
-function pulse(x) {
+function pulse(options, x) {
     if (x >= 1) return 1;
     if (x <= 0) return 0;
 
     if (options.pulseNormalize == 1) {
-        options.pulseNormalize /= pulse_(1);
+        options.pulseNormalize /= pulse_(options, 1);
     }
-    return pulse_(x);
+    return pulse_(options, x);
 }
 
 var userAgent = window.navigator.userAgent;
@@ -680,10 +655,58 @@ if ('onwheel' in document.createElement('div'))
 else if ('onmousewheel' in document.createElement('div'))
     wheelEvent = 'mousewheel';
 
+var initialized = false;
+var loaded = false;
+
+addEvent('load', function () {
+    loaded = true;
+});
+
 if (wheelEvent && isEnabledForBrowser) {
-    addEvent(wheelEvent, wheel);
     addEvent('mousedown', mousedown);
-    addEvent('load', init);
+}
+
+function SmoothScroll(options) {
+    var key;
+    options = options || {};
+    for(key in defaultOptions) if(defaultOptions.hasOwnProperty(key)) {
+        options[key] = options[key] === undefined ? defaultOptions[key] : options[key];
+    }
+
+    if (wheelEvent && isEnabledForBrowser) {
+        if (initialized) {
+            observer && observer.disconnect();
+            removeEvent(wheelEvent, initialized.wheel);
+            removeEvent('keydown', initialized.keydown);
+        }
+
+        initialized = {
+            wheel: wheel.bind(null, options),
+            keydown: keydown.bind(null, options)
+        };
+
+        function onload() {
+            init(options)
+
+            addEvent(wheelEvent, initialized.wheel);
+
+            if (options.keyboardSupport) {
+                addEvent('keydown', initialized.keydown);
+            }
+        }
+
+        if(loaded) {
+            onload();
+        } else {
+            addEvent('load', onload);
+        }
+    }
+}
+
+if (typeof exports === 'object') {
+    module.exports = SmoothScroll;
+} else {
+    window.SmoothScroll = SmoothScroll;
 }
 
 })();
