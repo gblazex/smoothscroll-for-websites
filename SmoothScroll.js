@@ -66,22 +66,11 @@ var key = { left: 37, up: 38, right: 39, down: 40, spacebar: 32,
  ***********************************************/
 
 /**
- * Tests if smooth scrolling is allowed. Shuts down everything if not.
- */
-function initTest() {
-    if (options.keyboardSupport) {
-        addEvent('keydown', keydown);
-    }
-}
-
-/**
  * Sets up scrolls array, determines if frames are involved.
  */
 function init() {
   
-    if (initDone || !document.body) return;
-
-    initDone = true;
+    if (!document.body) return;
 
     var body = document.body;
     var html = document.documentElement;
@@ -91,8 +80,6 @@ function init() {
     // check compat mode for root element
     root = (document.compatMode.indexOf('CSS') >= 0) ? html : body;
     activeElement = body;
-    
-    initTest();
 
     // Checks if this script is running in a frame
     if (top != self) {
@@ -151,16 +138,6 @@ function init() {
         body.style.backgroundAttachment = 'scroll';
         html.style.backgroundAttachment = 'scroll';
     }
-}
-
-/**
- * Removes event listeners and other traces left on the page.
- */
-function cleanup() {
-    observer && observer.disconnect();
-    removeEvent(wheelEvent, wheel);
-    removeEvent('mousedown', mousedown);
-    removeEvent('keydown', keydown);
 }
 
 
@@ -284,10 +261,6 @@ function scrollArray(elem, left, top) {
  */
 function wheel(event) {
 
-    if (!initDone) {
-        init();
-    }
-    
     var target = event.target;
     var overflowing = overflowingAncestor(target);
 
@@ -678,12 +651,11 @@ if ('onwheel' in document.createElement('div'))
 else if ('onmousewheel' in document.createElement('div'))
     wheelEvent = 'mousewheel';
 
-if (wheelEvent && isEnabledForBrowser) {
-    addEvent(wheelEvent, wheel);
-    addEvent('mousedown', mousedown);
-    addEvent('load', init);
-}
+var loaded = false;
 
+addEvent('load', function () {
+    loaded = true;
+});
 
 /***********************************************
  * PUBLIC INTERFACE
@@ -693,7 +665,36 @@ function SmoothScroll(optionsToSet) {
     for (var key in optionsToSet)
         if (defaultOptions.hasOwnProperty(key)) 
             options[key] = optionsToSet[key];
+
+    if (initDone) {
+        cleanup();
+    }
+
+    if (wheelEvent && isEnabledForBrowser) {
+        addEvent(wheelEvent, wheel);
+        addEvent('mousedown', mousedown);
+        if (options.keyboardSupport) {
+            addEvent('keydown', keydown);
+        }
+        initDone = true;
+        if (loaded)
+            init();
+        else
+            addEvent('load', init);
+    }
 }
+
+/**
+ * Removes event listeners and other traces left on the page.
+ */
+function cleanup() {
+    initDone = false;
+    observer && observer.disconnect();
+    removeEvent(wheelEvent, wheel);
+    removeEvent('mousedown', mousedown);
+    removeEvent('keydown', keydown);
+}
+
 SmoothScroll.destroy = cleanup;
 
 if ('object' == typeof exports)
