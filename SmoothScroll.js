@@ -165,6 +165,7 @@ function cleanup() {
     removeEvent('mousedown', mousedown);
     removeEvent('keydown', keydown);
     removeEvent('resize', refreshSize);
+    removeEvent('load', init);
 }
 
 
