@@ -54,6 +54,7 @@ var initDone  = false;
 var root = document.documentElement;
 var activeElement;
 var observer;
+var refreshSize;
 var deltaBuffer = [];
 var isMac = /^Mac/.test(navigator.platform);
 
@@ -116,7 +117,7 @@ function init() {
         
         // DOM changed (throttled) to fix height
         var pendingRefresh;
-        var refresh = function () {
+        refreshSize = function () {
             if (pendingRefresh) return; // could also be: clearTimeout(pendingRefresh);
             pendingRefresh = setTimeout(function () {
                 if (isExcluded) return; // could be running after cleanup
@@ -126,7 +127,9 @@ function init() {
             }, 500); // act rarely to stay fast
         };
   
-        setTimeout(refresh, 10);
+        setTimeout(refreshSize, 10);
+
+        addEvent('resize', refreshSize);
 
         // TODO: attributeFilter?
         var config = {
@@ -136,7 +139,7 @@ function init() {
             // subtree: true
         };
 
-        observer = new MutationObserver(refresh);
+        observer = new MutationObserver(refreshSize);
         observer.observe(body, config);
 
         if (root.offsetHeight <= windowHeight) {
@@ -161,6 +164,7 @@ function cleanup() {
     removeEvent(wheelEvent, wheel);
     removeEvent('mousedown', mousedown);
     removeEvent('keydown', keydown);
+    removeEvent('resize', refreshSize);
 }
 
 
