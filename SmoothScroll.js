@@ -1,5 +1,5 @@
 //
-// SmoothScroll for websites v1.3.9 (Balazs Galambosi)
+// SmoothScroll for websites v1.4.0 (Balazs Galambosi)
 // http://www.smoothscroll.net/
 //
 // Licensed under the terms of the MIT license.
@@ -59,13 +59,6 @@ var isMac = /^Mac/.test(navigator.platform);
 
 var key = { left: 37, up: 38, right: 39, down: 40, spacebar: 32, 
             pageup: 33, pagedown: 34, end: 35, home: 36 };
-
-
-/***********************************************
- * SETTINGS
- ***********************************************/
-
-var options = defaultOptions;
 
 
 /***********************************************
@@ -667,6 +660,11 @@ function pulse(x) {
     return pulse_(x);
 }
 
+
+/***********************************************
+ * FIRST RUN
+ ***********************************************/
+
 var userAgent = window.navigator.userAgent;
 var isEdge    = /Edge/.test(userAgent); // thank you MS
 var isChrome  = /chrome/i.test(userAgent) && !isEdge; 
@@ -685,5 +683,22 @@ if (wheelEvent && isEnabledForBrowser) {
     addEvent('mousedown', mousedown);
     addEvent('load', init);
 }
+
+
+/***********************************************
+ * PUBLIC INTERFACE
+ ***********************************************/
+
+function SmoothScroll(optionsToSet) {
+    for (var key in optionsToSet)
+        if (defaultOptions.hasOwnProperty(key)) 
+            options[key] = optionsToSet[key];
+}
+SmoothScroll.destroy = cleanup;
+
+if ('object' == typeof exports)
+    module.exports = SmoothScroll;
+else
+    window.SmoothScroll = SmoothScroll;
 
 })();

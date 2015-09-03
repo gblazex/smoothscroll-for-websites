@@ -1,0 +1,29 @@
+{
+  "name": "smoothscroll",
+  "version": "1.4.0",
+  "description": "Smooth scrolling experience for websites. This is the standalone version of SmoothScroll for individual websites and themes. Mouse wheel, keyboard and touchpad scrolling all supported.",
+  "main": "SmoothScroll.js",
+  "scripts": {
+    "test": "echo \"No test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/galambalazs/smoothscroll-for-websites.git"
+  },
+  "keywords": [
+    "smooth",
+    "scroll",
+    "scrolling",
+    "animation",
+    "wheel",
+    "chrome",
+    "easing",
+    "nice"
+  ],
+  "author": "Balazs Galambosi (https://www.smoothscroll.net)",
+  "license": "./LICENSE",
+  "bugs": {
+    "url": "https://github.com/galambalazs/smoothscroll-for-websites/issues"
+  },
+  "homepage": "https://github.com/galambalazs/smoothscroll-for-websites"
+}
