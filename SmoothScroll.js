@@ -701,6 +701,9 @@ function SmoothScroll(optionsToSet) {
 }
 SmoothScroll.destroy = cleanup;
 
+if (window.SmoothScrollOptions) // async API
+    SmoothScroll(window.SmoothScrollOptions)
+
 if ('object' == typeof exports)
     module.exports = SmoothScroll;
 else
