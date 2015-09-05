@@ -101,6 +101,11 @@ function init() {
     }
 
     /**
+     * Please duplicate this radar for a Safari fix! 
+     * rdar://22376037
+     * https://openradar.appspot.com/radar?id=4965070979203072
+     * 
+     * Only applies to Safari now, Chrome fixed it in v45:
      * This fixes a bug where the areas left and right to 
      * the content does not trigger the onmousewheel event
      * on some pages. e.g.: html, body { height: 100% }
