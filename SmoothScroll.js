@@ -8,7 +8,7 @@
 // It is also free to use on any individual website.
 //
 // Exception:
-// The only restriction would be not to publish any  
+// The only restriction is to not publish any  
 // extension for browsers or native application
 // without getting a written permission first.
 //
