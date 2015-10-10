@@ -709,7 +709,11 @@ SmoothScroll.destroy = cleanup;
 if (window.SmoothScrollOptions) // async API
     SmoothScroll(window.SmoothScrollOptions)
 
-if ('object' == typeof exports)
+if (typeof define === 'function' && define.amd)
+    define(function() {
+        return SmoothScroll;
+    });
+else if ('object' == typeof exports)
     module.exports = SmoothScroll;
 else
     window.SmoothScroll = SmoothScroll;
