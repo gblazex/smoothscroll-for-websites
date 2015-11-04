@@ -308,7 +308,6 @@ function wheel(event) {
 	if('object' == typeof options.excluded && 0 < options.excluded.length) {
 		for(var i = 0; i < options.excluded.length; i++) {
 			if(overflowing == options.excluded[i]) {
-				console.log('found');
 				return true;
 			}
 		}
