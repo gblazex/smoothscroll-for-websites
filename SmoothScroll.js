@@ -620,12 +620,12 @@ var getScrollRoot = (function() {
       document.body.appendChild(dummy);
       var bodyScrollTop  = document.body.scrollTop;
       var docElScrollTop = document.documentElement.scrollTop;
-      window.scrollBy(0, 1);
+      window.scrollBy(0, 3);
       if (document.body.scrollTop != bodyScrollTop)
         (SCROLL_ROOT = document.body);
       else 
         (SCROLL_ROOT = document.documentElement);
-      window.scrollBy(0, -1);
+      window.scrollBy(0, -3);
       document.body.removeChild(dummy);
     }
     return SCROLL_ROOT;
