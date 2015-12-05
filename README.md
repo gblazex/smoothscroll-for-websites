@@ -1,7 +1,7 @@
 ## Installation
 
 ```
-bower install smoothscroll
+bower install smoothscroll-for-websites
 ```
 
 #### IMPORTANT
