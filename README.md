@@ -1,3 +1,9 @@
+## Installation
+
+```
+bower install smoothscroll
+```
+
 #### IMPORTANT
 
 Please duplicate this radar for a Safari fix! 
