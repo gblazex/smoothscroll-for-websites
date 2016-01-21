@@ -28,5 +28,8 @@
   "homepage": "https://github.com/galambalazs/smoothscroll-for-websites",
   "devDependencies": {
     "uglify-js": "^2.6.1"
+  },
+  "scripts": {
+    "minify": "uglifyjs SmoothScroll.js --compress --mangle --output SmoothScroll.min.js"
   }
 }
