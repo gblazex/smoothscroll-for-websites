@@ -27,8 +27,6 @@
   },
   "homepage": "https://github.com/galambalazs/smoothscroll-for-websites",
   "devDependencies": {
-    "gulp": "^3.9.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-uglify": "^1.5.1"
+    "uglify-js": "^2.6.1"
   }
 }
