@@ -16,7 +16,7 @@
     "url": "git://github.com/galambalazs/smoothscroll-for-websites.git"
   },
   "bugs": "https://github.com/galambalazs/smoothscroll-for-websites/issues",
-  "license": "./LICENSE",
+  "license": "SEE LICENSE IN ./LICENSE",
   "main": "SmoothScroll.js",
   "devDependencies": { }
 }

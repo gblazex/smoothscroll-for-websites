@@ -22,7 +22,7 @@
     "nice"
   ],
   "author": "Balazs Galambosi (https://www.smoothscroll.net)",
-  "license": "./LICENSE",
+  "license": "SEE LICENSE IN ./LICENSE",
   "bugs": {
     "url": "https://github.com/galambalazs/smoothscroll-for-websites/issues"
   },
