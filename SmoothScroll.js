@@ -369,7 +369,7 @@ function keydown(event) {
                   (event.shiftKey && event.keyCode !== key.spacebar);
     
     // our own tracked active element could've been removed from the DOM
-    if (!document.contains(activeElement)) {
+    if (!document.body.contains(activeElement)) {
         activeElement = document.activeElement;
     }
 
