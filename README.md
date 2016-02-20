@@ -1,4 +1,10 @@
-IMPORTANT
+## Installation
+
+```
+bower install smoothscroll-for-websites
+```
+
+#### IMPORTANT
 
 Please duplicate this radar for a Safari fix! 
 This will clean up a 50-line workaround.
@@ -20,7 +26,7 @@ Or as a Chrome extension
 And Opera extension
   https://addons.opera.com/extensions/details/smoothscroll-3/
 
-Features
+## Features
 - Picasa-like smooth scrolling
 - Mouse wheel, middle mouse and keyboard support
 - Arrow keys, PgUp/PgDown, Spacebar, Home/End
@@ -29,6 +35,6 @@ Features
 - Full touchpad support
 - Excluded pages list
 
-People involved
+## People involved
 - Balazs Galambosi (maintainer)
 - Michael Herf     (pulse algorithm)
