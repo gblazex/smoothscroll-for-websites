@@ -33,6 +33,7 @@ People involved
 - Balazs Galambosi (maintainer)
 - Michael Herf     (pulse algorithm)
 
+                                  - - - - - - - - 
 
 INSTALL
 
@@ -43,6 +44,7 @@ Package managers:
 Or grab the latest version from cdnjs (minified version also available): 
   https://cdnjs.com/libraries/smoothscroll
 
+                                  - - - - - - - - 
 
 API
 
