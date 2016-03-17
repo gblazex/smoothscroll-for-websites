@@ -678,10 +678,11 @@ function pulse(x) {
 var userAgent = window.navigator.userAgent;
 var isEdge    = /Edge/.test(userAgent); // thank you MS
 var isChrome  = /chrome/i.test(userAgent) && !isEdge; 
-var isSafari  = /safari/i.test(userAgent) && !isEdge; 
+var isSafari  = /safari/i.test(userAgent) && !isEdge;
+var isFirefox = /firefox/i.test(userAgent) && !isEdge;
 var isMobile  = /mobile/i.test(userAgent);
 var isIEWin7  = /Windows NT 6.1/i.test(userAgent) && /rv:11/i.test(userAgent);
-var isEnabledForBrowser = (isChrome || isSafari || isIEWin7) && !isMobile;
+var isEnabledForBrowser = (isChrome || isSafari || isFirefox || isIEWin7) && !isMobile;
 
 var wheelEvent;
 if ('onwheel' in document.createElement('div'))
