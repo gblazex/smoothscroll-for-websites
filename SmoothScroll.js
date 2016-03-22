@@ -311,7 +311,7 @@ function wheel(event) {
     // leave embedded content alone (flash & pdf)
     if (isNodeName(activeElement, 'embed') || 
        (isNodeName(target, 'embed') && /\.pdf/i.test(target.src)) ||
-       isNodeName(activeElement, 'object')) {
+        isNodeName(activeElement, 'object')) {
         return true;
     }
 
@@ -563,7 +563,7 @@ function isTouchpad(deltaY) {
     if (!deltaBuffer.length) {
         deltaBuffer = [deltaY, deltaY, deltaY];
     }
-    deltaY = Math.abs(deltaY)
+    deltaY = Math.abs(deltaY);
     deltaBuffer.push(deltaY);
     deltaBuffer.shift();
     clearTimeout(deltaBufferTimer);
@@ -708,7 +708,7 @@ function SmoothScroll(optionsToSet) {
 SmoothScroll.destroy = cleanup;
 
 if (window.SmoothScrollOptions) // async API
-    SmoothScroll(window.SmoothScrollOptions)
+    SmoothScroll(window.SmoothScrollOptions);
 
 if (typeof define === 'function' && define.amd)
     define(function() {
