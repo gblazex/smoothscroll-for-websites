@@ -60,7 +60,7 @@ var isMac = /^Mac/.test(navigator.platform);
 
 var key = { left: 37, up: 38, right: 39, down: 40, spacebar: 32, 
             pageup: 33, pagedown: 34, end: 35, home: 36 };
-
+var arrowKeys = { 37: 1, 38: 1, 39: 1, 40: 1 };
 
 /***********************************************
  * INITIALIZE
@@ -380,20 +380,26 @@ function keydown(event) {
     // or inside interactive elements
     var inputNodeNames = /^(textarea|select|embed|object)$/i;
     var buttonTypes = /^(button|submit|radio|checkbox|file|color|image)$/i;
-    if ( inputNodeNames.test(target.nodeName) ||
-         isNodeName(target, 'input') && buttonTypes.test(target.type) ||
+    if ( event.defaultPrevented ||
+         inputNodeNames.test(target.nodeName) ||
+         isNodeName(target, 'input') && !buttonTypes.test(target.type) ||
          isNodeName(activeElement, 'video') ||
          isInsideYoutubeVideo(event) ||
          target.isContentEditable || 
-         event.defaultPrevented   ||
          modifier ) {
       return true;
     }
-    
-    // spacebar should trigger button press
+
+    // [spacebar] should trigger button press, leave it alone
     if ((isNodeName(target, 'button') ||
          isNodeName(target, 'input') && buttonTypes.test(target.type)) &&
         event.keyCode === key.spacebar) {
+      return true;
+    }
+
+    // [arrwow keys] on radio buttons should be left alone
+    if (isNodeName(target, 'input') && target.type == 'radio' &&
+        arrowKeys[event.keyCode])  {
       return true;
     }
     
