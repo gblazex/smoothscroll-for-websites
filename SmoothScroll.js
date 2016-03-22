@@ -311,7 +311,8 @@ function wheel(event) {
     // leave embedded content alone (flash & pdf)
     if (isNodeName(activeElement, 'embed') || 
        (isNodeName(target, 'embed') && /\.pdf/i.test(target.src)) ||
-        isNodeName(activeElement, 'object')) {
+        isNodeName(activeElement, 'object') ||
+        target.shadowRoot) {
         return true;
     }
 
