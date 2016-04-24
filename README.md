@@ -5,23 +5,22 @@ This will clean up a 50-line workaround.
 
   rdar://22376037 (https://openradar.appspot.com/radar?id=4965070979203072)
 
-                                  - - - - - - - - 
+---
 
 #SmoothScroll
-##Smooth Scrolling Experience for Websites
+**Smooth Scrolling Experience for Websites**
 
-This is the standalone version of SmoothScroll for individual websites and themes.
+This is the standalone version of **SmoothScroll** for web applications and themes.
 
-Also available as a Mac app
-  http://www.smoothscroll.net/mac/
+---
 
-Or as a Chrome extension
-  https://chrome.google.com/webstore/detail/smoothscroll/nbokbjkabcmbfdlbddjidfmibcpneigj
+**Available as**...
 
-And Opera extension
-  https://addons.opera.com/extensions/details/smoothscroll-3/
+- [Mac app](http://www.smoothscroll.net/mac/)
+- [Chrome extension](https://chrome.google.com/webstore/detail/smoothscroll/nbokbjkabcmbfdlbddjidfmibcpneigj)
+- [Opera extension](https://addons.opera.com/extensions/details/smoothscroll-3/)
 
-Features
+###Features
 - Picasa-like smooth scrolling
 - Mouse wheel, middle mouse and keyboard support
 - Arrow keys, PgUp/PgDown, Spacebar, Home/End
@@ -30,23 +29,24 @@ Features
 - Full touchpad support
 - Excluded pages list
 
-People involved
-- Balazs Galambosi (maintainer)
-- Michael Herf     (pulse algorithm)
+###Contributors
 
-                                  - - - - - - - - 
+- [Balazs Galambosi](https://github.com/galambalazs) (maintainer)
+- [Michael Herf](https://github.com/herf)         (pulse algorithm)
 
-INSTALL
+---
+
+##INSTALL
 
 Package managers:
-  npm install smoothscroll-for-websites
-  bower install --save smoothscroll-for-websites
 
-Or grab the latest version from cdnjs (minified version also available): 
-  https://cdnjs.com/libraries/smoothscroll
+    npm install smoothscroll-for-websites
+    bower install --save smoothscroll-for-websites
 
-                                  - - - - - - - - 
+Or grab the latest version from [cdnjs](https://cdnjs.com/libraries/smoothscroll) (minified version also available): 
 
-API
+---
+
+##API
 
 See the Wiki: https://github.com/galambalazs/smoothscroll-for-websites/wiki
