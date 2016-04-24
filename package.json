@@ -13,6 +13,7 @@
   },
   "paths": {
     "src": "src",
+    "dev": "dev",
     "build": "build"
   },
   "keywords": [
