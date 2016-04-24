@@ -13,7 +13,7 @@ This will clean up a 50-line workaround.
 This is the standalone version of **SmoothScroll** for web applications and themes.
 
 
-**Available as**...
+###Available as...
 
 - [Mac app](http://www.smoothscroll.net/mac/)
 - [Chrome extension](https://chrome.google.com/webstore/detail/smoothscroll/nbokbjkabcmbfdlbddjidfmibcpneigj)
@@ -32,6 +32,7 @@ This is the standalone version of **SmoothScroll** for web applications and them
 
 - [Balazs Galambosi](https://github.com/galambalazs) (maintainer)
 - [Michael Herf](https://github.com/herf)         (pulse algorithm)
+- [Richard Peck](https://github.com/richpeck) (1.5.0 contributor)
 
 ---
 
