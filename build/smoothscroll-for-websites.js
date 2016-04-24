@@ -34,7 +34,7 @@
     const NAME = 'SmoothScroll';
 
     // VERSION
-    const VERSION = '1.5.0';
+    const VERSION = '1.4.4';
 
     // Defaults (CONST)
     const DEFAULTS = {

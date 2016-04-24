@@ -1,0 +1,4 @@
+default:
+  - 'clean:build'
+  - 'rollup'
+  - 'uglify'

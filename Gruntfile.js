@@ -5,27 +5,15 @@
 */
 
 // Grunt
+// http://www.html5rocks.com/en/tutorials/tooling/supercharging-your-gruntfile/ VERY GOOD REF
 module.exports = function(grunt) {
 
-  // Project configuration.
-  grunt.initConfig({
-
-    // Metadata.
-    pkg: grunt.file.readJSON('package.json'),
-    rollup: {
-      your_target: {
-        'src' : 'src/js/SmoothScroll.js',
-        'dest': 'SmoothScroll.js'
-      },
-    },
-
-  });
+  //Time
+  require('time-grunt')(grunt);
 
   //Dependencies
-  grunt.loadNpmTasks('grunt-rollup');
+  require('load-grunt-config')(grunt); //https://github.com/firstandthird/load-grunt-config
 
-  // Fixes "default" not found task error -- run "grunt" and this will work
-  // http://bernt-anker.com/setup-use-grunt-projects/
-  grunt.registerTask('default', ['rollup']);
+  // Grunt/aliases.yml has all task definitions
 
 };
