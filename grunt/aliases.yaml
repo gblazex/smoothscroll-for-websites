@@ -1,4 +1,5 @@
 default:
-  - 'clean:build'
+  - 'clean'
   - 'rollup'
+  - 'babel'
   - 'uglify'
