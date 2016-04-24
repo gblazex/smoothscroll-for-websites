@@ -1,8 +1,6 @@
-module.exports = function(grunt) {
-	rollup: {
-		package: {
-			'src' : '<%= pkg.paths.src %>/js/SmoothScroll.js',
-			'dest': '<%= pkg.paths.build %>/<%= pkg.name %>.js'
-		}
+module.exports = {
+	package: {
+		'src' : '<%= package.paths.src %>/js/SmoothScroll.js',
+		'dest': '<%= package.paths.build %>/<%= pkg.name %>.js'
 	}
 }

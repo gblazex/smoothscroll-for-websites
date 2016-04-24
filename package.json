@@ -14,7 +14,7 @@
   "paths": {
     "src":    "src",
     "build":  "build" 
-  }
+  },
   "keywords": [
     "smooth",
     "scroll",
