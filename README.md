@@ -1,4 +1,4 @@
-IMPORTANT
+###IMPORTANT
 
 Please duplicate this radar for a Safari fix! 
 This will clean up a 50-line workaround.
@@ -7,7 +7,8 @@ This will clean up a 50-line workaround.
 
                                   - - - - - - - - 
 
-Smooth scrolling experience for websites.
+#SmoothScroll
+##Smooth Scrolling Experience for Websites
 
 This is the standalone version of SmoothScroll for individual websites and themes.
 
