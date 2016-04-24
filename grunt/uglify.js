@@ -8,6 +8,6 @@ module.exports = {
 	},
 	core: {
 		src:  '<%= rollup.package.dest %>',
-		dest: '<%= package.paths.build %>/<%= package.name %>.min.js'
+		dest: '<%= package.paths.build %>/min/<%= package.name %>.min.js'
 	}
 };
