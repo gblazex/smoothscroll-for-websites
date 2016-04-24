@@ -1,5 +1,6 @@
 default:
   - 'clean'
   - 'rollup'
+  - 'replace'
   - 'babel'
   - 'uglify'

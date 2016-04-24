@@ -5,7 +5,7 @@ module.exports = {
     },
     dist: {
         files: {
-            '<%= package.paths.build %>/<%= package.name %>.js': '<%= package.paths.src %>/js/SmoothScroll.js'
+            '<%= package.paths.build %>/<%= package.name %>.js': '<%= package.paths.src %>/SmoothScroll.js'
         }
     }
 };

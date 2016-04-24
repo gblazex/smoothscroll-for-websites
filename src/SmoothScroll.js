@@ -8,7 +8,7 @@
 //                                                                     //
 /////////////////////////////////////////////////////////////////////////
 
-// SmoothScroll for websites v1.5.0 (Balazs Galambosi)
+// SmoothScroll for websites v@@VERSION (@@AUTHOR)
 // http://www.smoothscroll.net/
 //
 // Licensed under the terms of the MIT license.
@@ -31,10 +31,10 @@
     ////////////////////////////////////////////
 
     // NAME
-    const NAME = 'SmoothScroll';
+    const NAME      = 'SmoothScroll';
 
     // VERSION
-    const VERSION = '1.4.4';
+    const VERSION   = '@@VERSION';
 
     // Defaults (CONST)
     const DEFAULTS = {

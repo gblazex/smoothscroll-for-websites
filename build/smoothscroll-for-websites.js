@@ -16,7 +16,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 //                                                                     //
 /////////////////////////////////////////////////////////////////////////
 
-// SmoothScroll for websites v1.5.0 (Balazs Galambosi)
+// SmoothScroll for websites v@@VERSION (@@AUTHOR)
 // http://www.smoothscroll.net/
 //
 // Licensed under the terms of the MIT license.
@@ -42,7 +42,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var NAME = 'SmoothScroll';
 
     // VERSION
-    var VERSION = '1.4.4';
+    var VERSION = '@@VERSION';
 
     // Defaults (CONST)
     var DEFAULTS = {
