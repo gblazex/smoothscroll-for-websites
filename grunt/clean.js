@@ -1,5 +1,5 @@
 module.exports = function(grunt) {
-    clean: {
-      build: ['<%= paths.build %>'],
-    }
+	clean: {
+		build: ['<%= pkg.paths.build %>']
+	}
 };

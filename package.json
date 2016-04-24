@@ -11,6 +11,10 @@
     "type": "git",
     "url": "https://github.com/galambalazs/smoothscroll-for-websites.git"
   },
+  "paths": {
+    "src":    "src",
+    "build":  "build" 
+  }
   "keywords": [
     "smooth",
     "scroll",

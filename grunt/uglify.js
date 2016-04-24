@@ -9,7 +9,7 @@ module.exports = function(grunt) {
 		},
 		core: {
 			src:  '<%= rollup.package.dest %>',
-			dest: '<%= paths.build %>/<%= pkg.name %>.min.js'
+			dest: '<%= pkg.paths.build %>/<%= pkg.name %>.min.js'
 		}
 	}
 };
