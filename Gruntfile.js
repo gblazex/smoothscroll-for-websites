@@ -14,8 +14,8 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     rollup: {
       your_target: {
-        'dest': 'build/js/smoothscroll.js',
-        'src' : 'src/js/SmoothScroll.js'
+        'src' : 'src/js/SmoothScroll.js',
+        'dest': 'SmoothScroll.js'
       },
     },
 

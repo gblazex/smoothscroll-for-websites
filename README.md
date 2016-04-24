@@ -12,7 +12,6 @@ This will clean up a 50-line workaround.
 
 This is the standalone version of **SmoothScroll** for web applications and themes.
 
----
 
 **Available as**...
 
