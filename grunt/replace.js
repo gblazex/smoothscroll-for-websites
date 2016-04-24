@@ -1,5 +1,6 @@
 module.exports = {
 	dist: {
+		files: 	[{expand: true, flatten: true, src: ['<%= rollup.package.dest %>'], dest: 'build'}],
 		options: {
 			patterns: [
 				{
@@ -10,9 +11,6 @@ module.exports = {
 					match: 'AUTHOR',
 					replacement: '<%= package.author %>'
 				}
-			],
-			files: [
-				{expand: true, flatten: true, src: ['<%= package.paths.build %>/<%= package.name %>.js'], dest: '<%= package.paths.build %>/<%= package.name %>.js'}
 			]
 		}
 	}
