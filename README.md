@@ -3,10 +3,10 @@
 
 This is the standalone version of **SmoothScroll** for web applications and themes.
 
-| **IMPORTANT**
-| Please duplicate this radar for a Safari fix! 
-| This will clean up a 50-line workaround.
-| rdar://22376037 (https://openradar.appspot.com/radar?id=4965070979203072) 
+> **IMPORTANT**
+> Please duplicate this radar for a Safari fix! 
+> This will clean up a 50-line workaround.
+> rdar://22376037 (https://openradar.appspot.com/radar?id=4965070979203072) 
 
 ###Available as...
 
