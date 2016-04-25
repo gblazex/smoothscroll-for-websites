@@ -175,26 +175,25 @@
 
         //GetScrollRoot
         static get getScrollRoot() {
-            (function() {
-                var SCROLL_ROOT;
-                return function() {
-                    if (!SCROLL_ROOT) {
-                      var dummy = document.createElement('div');
-                      dummy.style.cssText = 'height:10000px;width:1px;';
-                      document.body.appendChild(dummy);
-                      var bodyScrollTop  = document.body.scrollTop;
-                      var docElScrollTop = document.documentElement.scrollTop;
-                      window.scrollBy(0, 3);
-                      if (document.body.scrollTop != bodyScrollTop)
-                        (SCROLL_ROOT = document.body);
-                      else 
-                        (SCROLL_ROOT = document.documentElement);
-                      window.scrollBy(0, -3);
-                      document.body.removeChild(dummy);
-                    }
+            var SCROLL_ROOT;
+            var data = (function() {
+                if (!SCROLL_ROOT) {
+                  var dummy = document.createElement('div');
+                  dummy.style.cssText = 'height:10000px;width:1px;';
+                  document.body.appendChild(dummy);
+                  var bodyScrollTop  = document.body.scrollTop;
+                  var docElScrollTop = document.documentElement.scrollTop;
+                  window.scrollBy(0, 3);
+                  if (document.body.scrollTop != bodyScrollTop)
+                    (SCROLL_ROOT = document.body);
+                  else 
+                    (SCROLL_ROOT = document.documentElement);
+                  window.scrollBy(0, -3);
+                  document.body.removeChild(dummy);
+                }
                 return SCROLL_ROOT;
-                };
             })();
+            return data;
         }
 
         //////////////////////////////////
@@ -361,9 +360,9 @@
             // use default if there's no overflowing
             // element or default action is prevented   
             // or it's a zooming event with CTRL 
-            if (!overflowing || event.defaultPrevented || event.ctrlKey) {
-                return true;
-            }
+            //if (!overflowing || event.defaultPrevented || event.ctrlKey) {
+            //    return true;
+            //}
             
             // leave embedded content alone (flash & pdf)
             if (this.isNodeName(this.activeElement, 'embed') || 
@@ -615,8 +614,10 @@
         // Scrolling
         scrollArray(elem, left, top) {
 
+            // Log
             this.options.debug && console.log(this.constructor.NAME + " : Functionality");
            
+            // Scroll Direction
             this.directionCheck(left, top);
 
             if (this.options.accelerationMax != 1) {
@@ -641,13 +642,12 @@
                 lastY: (top  < 0) ? 0.99 : -0.99, 
                 start: Date.now()
             });
-                
+
             // don't act if there's a pending queue
             if (this.pending) {
                 return;
             }
 
-            console.log(elem);
             var scrollWindow = (elem === document.body);
             
             var self = this;
@@ -688,6 +688,8 @@
                         self.que.splice(i, 1); i--;
                     }           
                 }
+
+                console.log(elem);
 
                 // scroll left and top
                 if (scrollWindow) {
@@ -759,6 +761,7 @@
                     var isOverflowCSS = topOverflowsNotHidden || this.overflowAutoOrScroll(root);
                     if (this.isFrame && this.isContentOverflowing(root) || 
                        !this.isFrame && isOverflowCSS) {
+                        console.log(this.constructor.getScrollRoot);
                         return this.setCache(elems, this.constructor.getScrollRoot); 
                     }
                 } else if (this.isContentOverflowing(el) && this.overflowAutoOrScroll(el)) {
