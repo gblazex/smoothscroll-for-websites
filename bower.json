@@ -1,6 +1,6 @@
 {
   "name":         "smoothscroll-for-websites",
-  "version":      "1.5.0",
+  "version":      "1.5.0.alpha",
   "title":        "SmoothScroll for websites",
   "description":  "Smooth scrolling experience for websites. This is the standalone version of SmoothScroll for individual websites and themes. Mouse wheel, keyboard and touchpad scrolling all supported.",
   "keywords":    [
@@ -17,6 +17,6 @@
   },
   "bugs": "https://github.com/galambalazs/smoothscroll-for-websites/issues",
   "license": "SEE LICENSE IN ./LICENSE",
-  "main": "build/smoothscrool-for-websites.js",
+  "main": "smoothscrool-for-websites.js",
   "devDependencies": { }
 }
