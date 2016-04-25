@@ -1,6 +1,6 @@
 module.exports = {
 	dist: {
-		files: 	[{expand: true, flatten: true, src: ['<%= rollup.package.dest %>'], dest: 'build'}],
+		files: 	[{expand: true, flatten: true, src: ['<%= package.paths.src %>/<%= package.name %>.js'], dest: '<%= package.paths.build %>'}],
 		options: {
 			patterns: [
 				{

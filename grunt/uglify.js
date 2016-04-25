@@ -7,7 +7,7 @@ module.exports = {
 		preserveComments: /^!|@preserve|@license|@cc_on/i
 	},
 	core: {
-		src:  '<%= rollup.package.dest %>',
+		src:  '<%= package.paths.build %>/<%= package.name %>.js',
 		dest: '<%= package.paths.build %>/min/<%= package.name %>.min.js'
 	}
 };

@@ -8,7 +8,7 @@
 //                                                                     //
 /////////////////////////////////////////////////////////////////////////
 
-// SmoothScroll for websites v1.5.0 (Balazs Galambosi (https://www.smoothscroll.net))
+// SmoothScroll for websites v@@VERSION (@@AUTHOR)
 // http://www.smoothscroll.net/
 //
 // Licensed under the terms of the MIT license.
@@ -24,6 +24,7 @@
 /////////////////////////////////////////////////////////////////////////
 
 // Self invoking -- calls itself with any public API options
+// Should bind to onload
 (function () {
 
     ////////////////////////////////////////////
@@ -34,7 +35,7 @@
     const NAME      = 'SmoothScroll';
 
     // VERSION
-    const VERSION   = '1.5.0';
+    const VERSION   = '@@VERSION';
 
     // Defaults (CONST)
     const DEFAULTS = {
@@ -165,26 +166,35 @@
             return /^Mac/.test(navigator.platform);
         }
 
+        //MutationObserver
+        //Since it's a function, it will not be able to invoke the constructor
+        //As such, can should be able to rely on MutationObserver call ( I think )
+        //MutationObserver() {
+        //    return (window.MutationObserver || window.WebKitMutationObserver ||window.MozMutationObserver);
+        //}
+
         //GetScrollRoot
         static get getScrollRoot() {
-          var SCROLL_ROOT;
-          return function() {
-            if (!SCROLL_ROOT) {
-                var dummy = document.createElement('div');
-                dummy.style.cssText = 'height:10000px;width:1px;';
-                document.body.appendChild(dummy);
-                var bodyScrollTop  = document.body.scrollTop;
-                var docElScrollTop = document.documentElement.scrollTop;
-                window.scrollBy(0, 3);
-                if (document.body.scrollTop != bodyScrollTop)
-                    (SCROLL_ROOT = document.body);
-                else 
-                    (SCROLL_ROOT = document.documentElement);
-                window.scrollBy(0, -3);
-                document.body.removeChild(dummy);
-            }
-            return SCROLL_ROOT;
-          }
+            (function() {
+                var SCROLL_ROOT;
+                return function() {
+                    if (!SCROLL_ROOT) {
+                      var dummy = document.createElement('div');
+                      dummy.style.cssText = 'height:10000px;width:1px;';
+                      document.body.appendChild(dummy);
+                      var bodyScrollTop  = document.body.scrollTop;
+                      var docElScrollTop = document.documentElement.scrollTop;
+                      window.scrollBy(0, 3);
+                      if (document.body.scrollTop != bodyScrollTop)
+                        (SCROLL_ROOT = document.body);
+                      else 
+                        (SCROLL_ROOT = document.documentElement);
+                      window.scrollBy(0, -3);
+                      document.body.removeChild(dummy);
+                    }
+                return SCROLL_ROOT;
+                };
+            })();
         }
 
         //////////////////////////////////
@@ -264,7 +274,7 @@
                     // subtree: true
                 };
 
-                this.observer = new this.constructor.MutationObserver(refreshSize);
+                this.observer = new MutationObserver(refreshSize);
                 this.observer.observe(body, config);
 
                 if (root.offsetHeight <= windowHeight) {
@@ -402,7 +412,7 @@
             }
             
             this.scrollArray(overflowing, deltaX, deltaY);
-            //event.preventDefault();
+            event.preventDefault();
             this.scheduleClearCache();
         }
 
@@ -455,7 +465,7 @@
             }
             
             var shift, x = 0, y = 0;
-            var elem = overflowingAncestor(activeElement);
+            var elem = this.overflowingAncestor(activeElement);
             var clientHeight = elem.clientHeight;
 
             if (elem == document.body) clientHeight = window.innerHeight;
@@ -539,11 +549,7 @@
 
         // RequestFrame
         requestFrame(callback, element, delay) {
-            return (window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
-                  function (callback, element, delay) {
-                    window.setTimeout(callback, delay || (1000/60));
-                 }
-            );
+            window.setTimeout(callback, delay || (1000/60));
         }
 
         // Direction Check
@@ -641,6 +647,7 @@
                 return;
             }
 
+            console.log(elem);
             var scrollWindow = (elem === document.body);
             
             var self = this;
@@ -652,7 +659,7 @@
             
                 for (var i = 0; i < self.que.length; i++) {
                     
-                    var item = self.que[i];
+                    var item     = self.que[i];
                     var elapsed  = now - item.start;
                     var finished = (elapsed >= self.options.animationTime);
                     
@@ -701,9 +708,8 @@
                 } else { 
                     self.pending = false;
                 }
-            };
 
-            step(0);
+            };
             
             // start a new queue of actions
             this.requestFrame(step, elem, 0);

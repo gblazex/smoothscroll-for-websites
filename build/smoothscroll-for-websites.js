@@ -16,7 +16,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 //                                                                     //
 /////////////////////////////////////////////////////////////////////////
 
-// SmoothScroll for websites v@@VERSION (@@AUTHOR)
+// SmoothScroll for websites v1.5.0 (Balazs Galambosi (https://www.smoothscroll.net))
 // http://www.smoothscroll.net/
 //
 // Licensed under the terms of the MIT license.
@@ -32,6 +32,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 /////////////////////////////////////////////////////////////////////////
 
 // Self invoking -- calls itself with any public API options
+// Should bind to onload
 (function () {
 
     ////////////////////////////////////////////
@@ -42,7 +43,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var NAME = 'SmoothScroll';
 
     // VERSION
-    var VERSION = '@@VERSION';
+    var VERSION = '1.5.0';
 
     // Defaults (CONST)
     var DEFAULTS = {
@@ -248,7 +249,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 }
 
                 this.scrollArray(overflowing, deltaX, deltaY);
-                //event.preventDefault();
+                event.preventDefault();
                 this.scheduleClearCache();
             }
 
@@ -295,7 +296,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 var shift,
                     x = 0,
                     y = 0;
-                var elem = overflowingAncestor(activeElement);
+                var elem = this.overflowingAncestor(activeElement);
                 var clientHeight = elem.clientHeight;
 
                 if (elem == document.body) clientHeight = window.innerHeight;
@@ -390,9 +391,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }, {
             key: 'requestFrame',
             value: function requestFrame(callback, element, delay) {
-                return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || function (callback, element, delay) {
-                    window.setTimeout(callback, delay || 1000 / 60);
-                };
+                window.setTimeout(callback, delay || 1000 / 60);
             }
 
             // Direction Check
@@ -505,6 +504,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     return;
                 }
 
+                console.log(elem);
                 var scrollWindow = elem === document.body;
 
                 var self = this;
@@ -565,8 +565,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                         self.pending = false;
                     }
                 };
-
-                step(0);
 
                 // start a new queue of actions
                 this.requestFrame(step, elem, 0);
@@ -789,7 +787,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             // subtree: true
                         };
 
-                        this.observer = new this.constructor.MutationObserver(refreshSize);
+                        this.observer = new MutationObserver(refreshSize);
                         this.observer.observe(body, config);
 
                         if (root.offsetHeight <= windowHeight) {
@@ -893,26 +891,35 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 );
             }
 
+            //MutationObserver
+            //Since it's a function, it will not be able to invoke the constructor
+            //As such, can should be able to rely on MutationObserver call ( I think )
+            //MutationObserver() {
+            //    return (window.MutationObserver || window.WebKitMutationObserver ||window.MozMutationObserver);
+            //}
+
             //GetScrollRoot
 
         }, {
             key: 'getScrollRoot',
             get: function get() {
-                var SCROLL_ROOT;
-                return function () {
-                    if (!SCROLL_ROOT) {
-                        var dummy = document.createElement('div');
-                        dummy.style.cssText = 'height:10000px;width:1px;';
-                        document.body.appendChild(dummy);
-                        var bodyScrollTop = document.body.scrollTop;
-                        var docElScrollTop = document.documentElement.scrollTop;
-                        window.scrollBy(0, 3);
-                        if (document.body.scrollTop != bodyScrollTop) SCROLL_ROOT = document.body;else SCROLL_ROOT = document.documentElement;
-                        window.scrollBy(0, -3);
-                        document.body.removeChild(dummy);
-                    }
-                    return SCROLL_ROOT;
-                };
+                (function () {
+                    var SCROLL_ROOT;
+                    return function () {
+                        if (!SCROLL_ROOT) {
+                            var dummy = document.createElement('div');
+                            dummy.style.cssText = 'height:10000px;width:1px;';
+                            document.body.appendChild(dummy);
+                            var bodyScrollTop = document.body.scrollTop;
+                            var docElScrollTop = document.documentElement.scrollTop;
+                            window.scrollBy(0, 3);
+                            if (document.body.scrollTop != bodyScrollTop) SCROLL_ROOT = document.body;else SCROLL_ROOT = document.documentElement;
+                            window.scrollBy(0, -3);
+                            document.body.removeChild(dummy);
+                        }
+                        return SCROLL_ROOT;
+                    };
+                })();
             }
         }]);
 
