@@ -1,7 +1,7 @@
 #SmoothScroll
 **Smooth Scrolling Experience for Websites**
 
-![Bower version](https://img.shields.io/bower/v/smoothscroll-for-websites.svg)
+[![Bower version](https://img.shields.io/bower/v/smoothscroll-for-websites.svg)](https://github.com/galambalazs/smoothscroll-for-websites)
 [![npm version](https://img.shields.io/npm/v/smoothscroll-for-websites.svg)](https://www.npmjs.com/package/smoothscroll-for-websites)
 
 This is the standalone version of **SmoothScroll** for web applications and themes.
