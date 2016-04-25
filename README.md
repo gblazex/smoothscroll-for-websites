@@ -1,6 +1,9 @@
 #SmoothScroll
 **Smooth Scrolling Experience for Websites**
 
+![Bower version](https://img.shields.io/bower/v/smoothscroll-for-websites.svg)
+[![npm version](https://img.shields.io/npm/v/smoothscroll-for-websites.svg)](https://www.npmjs.com/package/smoothscroll-for-websites)
+
 This is the standalone version of **SmoothScroll** for web applications and themes.
 
 > **IMPORTANT**
@@ -8,7 +11,7 @@ This is the standalone version of **SmoothScroll** for web applications and them
 > This will clean up a 50-line workaround.
 > rdar://22376037 (https://openradar.appspot.com/radar?id=4965070979203072) 
 
-###Available as...
+###Also Available as...
 
 - [Mac app](http://www.smoothscroll.net/mac/)
 - [Chrome extension](https://chrome.google.com/webstore/detail/smoothscroll/nbokbjkabcmbfdlbddjidfmibcpneigj)
