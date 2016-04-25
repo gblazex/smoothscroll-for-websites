@@ -2,7 +2,7 @@
   "name":         "smoothscroll-for-websites",
   "version":      "1.5.0",
   "title":        "SmoothScroll for websites",
-  "description":  "Smooth scrolling experience for websites. This is the standalone version of SmoothScroll for individual websites and themes. Mouse wheel, keyboard and touchpad scrolling all supported.",
+  "description":  "Smooth scrolling experience for websites.",
   "keywords":    [
                   "smooth", "scroll", "scrolling", "animation", "wheel", "chrome", "easing", "nice"
   ],
