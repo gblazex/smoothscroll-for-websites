@@ -17,6 +17,6 @@
   },
   "bugs": "https://github.com/galambalazs/smoothscroll-for-websites/issues",
   "license": "SEE LICENSE IN ./LICENSE",
-  "main": "SmoothScroll.js",
+  "main": "build/smoothscrool-for-websites.js",
   "devDependencies": { }
 }

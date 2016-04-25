@@ -5,7 +5,7 @@
   "main": "SmoothScroll.js",
   "scripts": {
     "test": "echo \"No test specified\" && exit 1",
-    "minify": "uglifyjs SmoothScroll.js --compress --mangle --output SmoothScroll.min.js"
+    "minify": "grunt"
   },
   "repository": {
     "type": "git",
@@ -43,8 +43,7 @@
     "grunt-contributors": "0.0.3",
     "grunt-replace": "^1.0.1",
     "load-grunt-config": "^0.19.1",
-    "time-grunt": "^1.3.0",
-    "uglify-js": "^2.6.1"
+    "time-grunt": "^1.3.0"
   },
   "dependencies": {
     "grunt": "^1.0.1"
