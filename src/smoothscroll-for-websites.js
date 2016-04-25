@@ -436,8 +436,6 @@
             var key       = this.constructor.KEY;
             var arrowkeys = this.constructor.ARROWKEYS;
 
-            console.log(arrowkeys);
-
             //Vars
             var target   = event.target;
             var modifier = event.ctrlKey || event.altKey || event.metaKey || 
@@ -845,6 +843,13 @@
 
         ///////////////////////////////
 
+        // Tie to Public API (so it works without having to call new)
+        static _invoke(config) {
+
+            // New
+            new SmoothScroll(config)
+        }
+
     };
 
 
@@ -852,15 +857,10 @@
     // PUBLIC
     ////////////////////////////////////////////
 
-    // Invoke the "SmoothScroll" class, bind to
-    // the various events and let it roll. 
-
-    scroller = new SmoothScroll();
-
     // Async API
     // If "SmoothScrollOptions" attached to Window
     if (window.SmoothScrollOptions)
-        SmoothScroll(window.SmoothScrollOptions);
+        new SmoothScroll(window.SmoothScrollOptions);
 
     if (typeof define === 'function' && define.amd)
         define(function() {
@@ -869,8 +869,8 @@
     else if ('object' == typeof exports)
         module.exports = SmoothScroll;
     else
-        window.SmoothScroll = SmoothScroll;
-
+        window.SmoothScroll             = SmoothScroll._invoke;
+        window.SmoothScroll.Constructor = SmoothScroll
 })();
 
 /////////////////////////////////////////////////////////////////////////
