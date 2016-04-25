@@ -141,6 +141,16 @@
             return DEFAULTS
         }
 
+        // Key
+        static get KEY() {
+            return KEY
+        }
+
+        // Arrows
+        static get ARROWKEYS() {
+            return ARROWKEYS
+        }
+
         // Browser
         static get BROWSER() {
             var userAgent = window.navigator.userAgent;
@@ -251,7 +261,7 @@
                 
                 // DOM changed (throttled) to fix height
                 var pendingRefresh;
-                var refreshSize = function () {
+                this.refreshSize = function () {
                     if (pendingRefresh) return; // could also be: clearTimeout(pendingRefresh);
                     pendingRefresh = setTimeout(function () {
                         if (this.isExcluded) return; // could be running after cleanup
@@ -261,9 +271,9 @@
                     }, 500); // act rarely to stay fast
                 };
           
-                setTimeout(refreshSize, 10);
+                setTimeout(this.refreshSize, 10);
 
-                this.setEvent('add', 'resize', refreshSize);
+                this.setEvent('add', 'resize', this.refreshSize);
 
                 // TODO: attributeFilter?
                 var config = {
@@ -273,7 +283,7 @@
                     // subtree: true
                 };
 
-                this.observer = new MutationObserver(refreshSize);
+                this.observer = new MutationObserver(this.refreshSize);
                 this.observer.observe(body, config);
 
                 if (root.offsetHeight <= windowHeight) {
@@ -349,7 +359,7 @@
         wheel(event) {
 
             // Log
-            this.options.debug && console.log("Wheel Event");
+            this.options.debug && console.log(this.constructor.name + " : Wheel Event");
 
             // Loaded?
             !this.initDone && this.load;
@@ -420,11 +430,13 @@
         keydown(event) {
 
             // Log
-            this.options.debug && console.log("Keydown Event");
+            this.options.debug && console.log(this.constructor.name + " : Keydown Event");
 
             //Constants
             var key       = this.constructor.KEY;
             var arrowkeys = this.constructor.ARROWKEYS;
+
+            console.log(arrowkeys);
 
             //Vars
             var target   = event.target;
@@ -432,7 +444,7 @@
                           (event.shiftKey && event.keyCode !== key.spacebar);
             
             // our own tracked active element could've been removed from the DOM
-            if (!document.body.contains(activeElement)) activeElement = document.activeElement;
+            if (!document.body.contains(this.activeElement)) this.activeElement = document.activeElement;
 
             // do nothing if user is editing text
             // or using a modifier key (except shift)
@@ -443,8 +455,8 @@
             if ( event.defaultPrevented ||
                  inputNodeNames.test(target.nodeName) ||
                  this.isNodeName(target, 'input') && !buttonTypes.test(target.type) ||
-                 this.isNodeName(activeElement, 'video') ||
-                 isInsideYoutubeVideo(event) ||
+                 this.isNodeName(this.activeElement, 'video') ||
+                 this.isInsideYoutubeVideo(event) ||
                  target.isContentEditable || 
                  modifier ) {
               return true;
@@ -464,17 +476,17 @@
             }
             
             var shift, x = 0, y = 0;
-            var elem = this.overflowingAncestor(activeElement);
+            var elem = this.overflowingAncestor(this.activeElement);
             var clientHeight = elem.clientHeight;
 
             if (elem == document.body) clientHeight = window.innerHeight;
 
             switch (event.keyCode) {
                 case key.up:
-                    y = -options.arrowScroll;
+                    y = -this.options.arrowScroll;
                     break;
                 case key.down:
-                    y = options.arrowScroll;
+                    y = this.options.arrowScroll;
                     break;         
                 case key.spacebar: // (+ shift)
                     shift = event.shiftKey ? 1 : -1;
@@ -494,10 +506,10 @@
                     y = (damt > 0) ? damt+10 : 0;
                     break;
                 case key.left:
-                    x = -options.arrowScroll;
+                    x = -this.options.arrowScroll;
                     break;
                 case key.right:
-                    x = options.arrowScroll;
+                    x = this.options.arrowScroll;
                     break;            
                 default:
                     return true; // a key we don't care about
@@ -513,7 +525,7 @@
         mousedown(event) {
 
             // Log
-            this.options.debug && console.log("Mousedown Event");
+            this.options.debug && console.log(this.constructor.name + " : Mousedown Event");
 
             // Set value of class var
             this.activeElement = event.target;
@@ -530,7 +542,9 @@
 
         //initTest
         initTest() {
-            this.options.keyboardSupport && this.setEvent('add', 'keydown', this.keydown());
+            if (this.options.keyboardSupport)
+                var self = this;
+                this.setEvent('add', 'keydown', function(e) { self.keydown(e); } );
         }
 
         //nodeName
@@ -689,8 +703,6 @@
                     }           
                 }
 
-                console.log(elem);
-
                 // scroll left and top
                 if (scrollWindow) {
                     window.scrollBy(scrollX, scrollY);
@@ -761,7 +773,6 @@
                     var isOverflowCSS = topOverflowsNotHidden || this.overflowAutoOrScroll(root);
                     if (this.isFrame && this.isContentOverflowing(root) || 
                        !this.isFrame && isOverflowCSS) {
-                        console.log(this.constructor.getScrollRoot);
                         return this.setCache(elems, this.constructor.getScrollRoot); 
                     }
                 } else if (this.isContentOverflowing(el) && this.overflowAutoOrScroll(el)) {
@@ -844,7 +855,7 @@
     // Invoke the "SmoothScroll" class, bind to
     // the various events and let it roll. 
 
-    scroller = new SmoothScroll({keyboardSupport: false, debug: true});
+    scroller = new SmoothScroll();
 
     // Async API
     // If "SmoothScrollOptions" attached to Window

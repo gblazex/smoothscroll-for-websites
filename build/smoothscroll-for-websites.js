@@ -190,7 +190,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             value: function wheel(event) {
 
                 // Log
-                this.options.debug && console.log("Wheel Event");
+                this.options.debug && console.log(this.constructor.name + " : Wheel Event");
 
                 // Loaded?
                 !this.initDone && this.load;
@@ -201,9 +201,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 // use default if there's no overflowing
                 // element or default action is prevented  
                 // or it's a zooming event with CTRL
-                if (!overflowing || event.defaultPrevented || event.ctrlKey) {
-                    return true;
-                }
+                //if (!overflowing || event.defaultPrevented || event.ctrlKey) {
+                //    return true;
+                //}
 
                 // leave embedded content alone (flash & pdf)
                 if (this.isNodeName(this.activeElement, 'embed') || this.isNodeName(target, 'embed') && /\.pdf/i.test(target.src) || this.isNodeName(this.activeElement, 'object') || target.shadowRoot) {
@@ -260,18 +260,20 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             value: function keydown(event) {
 
                 // Log
-                this.options.debug && console.log("Keydown Event");
+                this.options.debug && console.log(this.constructor.name + " : Keydown Event");
 
                 //Constants
                 var key = this.constructor.KEY;
                 var arrowkeys = this.constructor.ARROWKEYS;
+
+                console.log(arrowkeys);
 
                 //Vars
                 var target = event.target;
                 var modifier = event.ctrlKey || event.altKey || event.metaKey || event.shiftKey && event.keyCode !== key.spacebar;
 
                 // our own tracked active element could've been removed from the DOM
-                if (!document.body.contains(activeElement)) activeElement = document.activeElement;
+                if (!document.body.contains(this.activeElement)) this.activeElement = document.activeElement;
 
                 // do nothing if user is editing text
                 // or using a modifier key (except shift)
@@ -279,7 +281,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 // or inside interactive elements
                 var inputNodeNames = /^(textarea|select|embed|object)$/i;
                 var buttonTypes = /^(button|submit|radio|checkbox|file|color|image)$/i;
-                if (event.defaultPrevented || inputNodeNames.test(target.nodeName) || this.isNodeName(target, 'input') && !buttonTypes.test(target.type) || this.isNodeName(activeElement, 'video') || isInsideYoutubeVideo(event) || target.isContentEditable || modifier) {
+                if (event.defaultPrevented || inputNodeNames.test(target.nodeName) || this.isNodeName(target, 'input') && !buttonTypes.test(target.type) || this.isNodeName(this.activeElement, 'video') || this.isInsideYoutubeVideo(event) || target.isContentEditable || modifier) {
                     return true;
                 }
 
@@ -296,17 +298,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 var shift,
                     x = 0,
                     y = 0;
-                var elem = this.overflowingAncestor(activeElement);
+                var elem = this.overflowingAncestor(this.activeElement);
                 var clientHeight = elem.clientHeight;
 
                 if (elem == document.body) clientHeight = window.innerHeight;
 
                 switch (event.keyCode) {
                     case key.up:
-                        y = -options.arrowScroll;
+                        y = -this.options.arrowScroll;
                         break;
                     case key.down:
-                        y = options.arrowScroll;
+                        y = this.options.arrowScroll;
                         break;
                     case key.spacebar:
                         // (+ shift)
@@ -327,10 +329,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                         y = damt > 0 ? damt + 10 : 0;
                         break;
                     case key.left:
-                        x = -options.arrowScroll;
+                        x = -this.options.arrowScroll;
                         break;
                     case key.right:
-                        x = options.arrowScroll;
+                        x = this.options.arrowScroll;
                         break;
                     default:
                         return true; // a key we don't care about
@@ -348,7 +350,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             value: function mousedown(event) {
 
                 // Log
-                this.options.debug && console.log("Mousedown Event");
+                this.options.debug && console.log(this.constructor.name + " : Mousedown Event");
 
                 // Set value of class var
                 this.activeElement = event.target;
@@ -367,7 +369,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }, {
             key: 'initTest',
             value: function initTest() {
-                this.options.keyboardSupport && this.setEvent('add', 'keydown', this.keydown());
+                if (this.options.keyboardSupport) var self = this;
+                this.setEvent('add', 'keydown', function (e) {
+                    self.keydown(e);
+                });
             }
 
             //nodeName
@@ -472,8 +477,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             key: 'scrollArray',
             value: function scrollArray(elem, left, top) {
 
+                // Log
                 this.options.debug && console.log(this.constructor.NAME + " : Functionality");
 
+                // Scroll Direction
                 this.directionCheck(left, top);
 
                 if (this.options.accelerationMax != 1) {
@@ -504,7 +511,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     return;
                 }
 
-                console.log(elem);
                 var scrollWindow = elem === document.body;
 
                 var self = this;
@@ -765,7 +771,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
                         // DOM changed (throttled) to fix height
                         var pendingRefresh;
-                        var refreshSize = function refreshSize() {
+                        this.refreshSize = function () {
                             if (pendingRefresh) return; // could also be: clearTimeout(pendingRefresh);
                             pendingRefresh = setTimeout(function () {
                                 if (this.isExcluded) return; // could be running after cleanup
@@ -775,9 +781,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             }, 500); // act rarely to stay fast
                         };
 
-                        setTimeout(refreshSize, 10);
+                        setTimeout(this.refreshSize, 10);
 
-                        this.setEvent('add', 'resize', refreshSize);
+                        this.setEvent('add', 'resize', this.refreshSize);
 
                         // TODO: attributeFilter?
                         var config = {
@@ -787,7 +793,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             // subtree: true
                         };
 
-                        this.observer = new MutationObserver(refreshSize);
+                        this.observer = new MutationObserver(this.refreshSize);
                         this.observer.observe(body, config);
 
                         if (root.offsetHeight <= windowHeight) {
@@ -856,6 +862,22 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 return DEFAULTS;
             }
 
+            // Key
+
+        }, {
+            key: 'KEY',
+            get: function get() {
+                return KEY;
+            }
+
+            // Arrows
+
+        }, {
+            key: 'ARROWKEYS',
+            get: function get() {
+                return ARROWKEYS;
+            }
+
             // Browser
 
         }, {
@@ -903,23 +925,22 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }, {
             key: 'getScrollRoot',
             get: function get() {
-                (function () {
-                    var SCROLL_ROOT;
-                    return function () {
-                        if (!SCROLL_ROOT) {
-                            var dummy = document.createElement('div');
-                            dummy.style.cssText = 'height:10000px;width:1px;';
-                            document.body.appendChild(dummy);
-                            var bodyScrollTop = document.body.scrollTop;
-                            var docElScrollTop = document.documentElement.scrollTop;
-                            window.scrollBy(0, 3);
-                            if (document.body.scrollTop != bodyScrollTop) SCROLL_ROOT = document.body;else SCROLL_ROOT = document.documentElement;
-                            window.scrollBy(0, -3);
-                            document.body.removeChild(dummy);
-                        }
-                        return SCROLL_ROOT;
-                    };
-                })();
+                var SCROLL_ROOT;
+                var data = function () {
+                    if (!SCROLL_ROOT) {
+                        var dummy = document.createElement('div');
+                        dummy.style.cssText = 'height:10000px;width:1px;';
+                        document.body.appendChild(dummy);
+                        var bodyScrollTop = document.body.scrollTop;
+                        var docElScrollTop = document.documentElement.scrollTop;
+                        window.scrollBy(0, 3);
+                        if (document.body.scrollTop != bodyScrollTop) SCROLL_ROOT = document.body;else SCROLL_ROOT = document.documentElement;
+                        window.scrollBy(0, -3);
+                        document.body.removeChild(dummy);
+                    }
+                    return SCROLL_ROOT;
+                }();
+                return data;
             }
         }]);
 
@@ -935,7 +956,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     // Invoke the "SmoothScroll" class, bind to
     // the various events and let it roll.
 
-    scroller = new SmoothScroll({ keyboardSupport: false, debug: true });
+    scroller = new SmoothScroll();
 
     // Async API
     // If "SmoothScrollOptions" attached to Window
