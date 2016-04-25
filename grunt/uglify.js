@@ -8,6 +8,6 @@ module.exports = {
 	},
 	core: {
 		src:  '<%= package.paths.build %>/<%= package.name %>.js',
-		dest: '<%= package.paths.build %>/min/<%= package.name %>.min.js'
+		dest: '<%= package.name %>.js' // should work for Bower / RailsAssets etc
 	}
 };
