@@ -844,10 +844,11 @@
         ///////////////////////////////
 
         // Tie to Public API (so it works without having to call new)
+        // To get this working without invocation, set the bottom 
         static _invoke(config) {
 
-            // New
-            new SmoothScroll(config)
+            //https://github.com/twbs/bootstrap/blob/v4-dev/js/src/tooltip.js#L619
+            new SmoothScroll(config);
         }
 
     };
@@ -857,20 +858,24 @@
     // PUBLIC
     ////////////////////////////////////////////
 
+    //Load on page
+    window.SmoothScroll             = SmoothScroll._invoke; // This will always be called (allows you to do what you want to invoke)
+    window.SmoothScroll.Constructor = SmoothScroll // This allows you to call the class without having to use "new"
+
     // Async API
     // If "SmoothScrollOptions" attached to Window
     if (window.SmoothScrollOptions)
-        new SmoothScroll(window.SmoothScrollOptions);
+        SmoothScroll._invoke(window.SmoothScrollOptions);
 
     if (typeof define === 'function' && define.amd)
         define(function() {
-            return SmoothScroll;
+            return SmoothScroll._invoke;
         });
     else if ('object' == typeof exports)
-        module.exports = SmoothScroll;
+        module.exports = SmoothScroll._invoke;
     else
-        window.SmoothScroll             = SmoothScroll._invoke;
-        window.SmoothScroll.Constructor = SmoothScroll
+        SmoothScroll._invoke(window.SmoothScrollOptions);
+
 })();
 
 /////////////////////////////////////////////////////////////////////////

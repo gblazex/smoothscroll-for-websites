@@ -266,8 +266,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 var key = this.constructor.KEY;
                 var arrowkeys = this.constructor.ARROWKEYS;
 
-                console.log(arrowkeys);
-
                 //Vars
                 var target = event.target;
                 var modifier = event.ctrlKey || event.altKey || event.metaKey || event.shiftKey && event.keyCode !== key.spacebar;
@@ -716,6 +714,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
             ///////////////////////////////
 
+            // Tie to Public API (so it works without having to call new)
+            // To get this working without invocation, set the bottom
+
         }, {
             key: 'load',
 
@@ -841,6 +842,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 });
             }
         }], [{
+            key: '_invoke',
+            value: function _invoke(config) {
+
+                //https://github.com/twbs/bootstrap/blob/v4-dev/js/src/tooltip.js#L619
+                new SmoothScroll(config);
+            }
+        }, {
             key: 'NAME',
             get: function get() {
                 return NAME;
@@ -953,18 +961,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     // PUBLIC
     ////////////////////////////////////////////
 
-    // Invoke the "SmoothScroll" class, bind to
-    // the various events and let it roll.
-
-    scroller = new SmoothScroll();
+    //Load on page
+    window.SmoothScroll = SmoothScroll._invoke; // This will always be called (allows you to do what you want to invoke)
+    window.SmoothScroll.Constructor = SmoothScroll; // This allows you to call the class without having to use "new"
 
     // Async API
     // If "SmoothScrollOptions" attached to Window
-    if (window.SmoothScrollOptions) SmoothScroll(window.SmoothScrollOptions);
+    if (window.SmoothScrollOptions) SmoothScroll._invoke(window.SmoothScrollOptions);
 
     if (typeof define === 'function' && define.amd) define(function () {
-        return SmoothScroll;
-    });else if ('object' == (typeof exports === 'undefined' ? 'undefined' : _typeof(exports))) module.exports = SmoothScroll;else window.SmoothScroll = SmoothScroll;
+        return SmoothScroll._invoke;
+    });else if ('object' == (typeof exports === 'undefined' ? 'undefined' : _typeof(exports))) module.exports = SmoothScroll._invoke;else SmoothScroll._invoke(window.SmoothScrollOptions);
 })();
 
 /////////////////////////////////////////////////////////////////////////
