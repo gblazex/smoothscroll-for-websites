@@ -386,10 +386,10 @@
             var deltaY = -event.wheelDeltaY || event.deltaY || 0;
             
             if (this.constructor.isMac) {
-                if (event.wheelDeltaX && isDivisible(event.wheelDeltaX, 120)) {
+                if (event.wheelDeltaX && this.isDivisible(event.wheelDeltaX, 120)) {
                     deltaX = -120 * (event.wheelDeltaX / Math.abs(event.wheelDeltaX));
                 }
-                if (event.wheelDeltaY && isDivisible(event.wheelDeltaY, 120)) {
+                if (event.wheelDeltaY && this.isDivisible(event.wheelDeltaY, 120)) {
                     deltaY = -120 * (event.wheelDeltaY / Math.abs(event.wheelDeltaY));
                 }
             }
