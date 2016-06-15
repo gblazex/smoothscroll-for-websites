@@ -94,6 +94,10 @@ function init() {
     activeElement = body;
     
     initTest();
+	
+	if ('string' == typeof options.excluded && 0 < options.excluded.length) {
+		options.excluded = document.body.querySelectorAll(options.excluded);
+	}
 
     // Checks if this script is running in a frame
     if (top != self) {
@@ -301,6 +305,14 @@ function wheel(event) {
     var target = event.target;
     var overflowing = overflowingAncestor(target);
 
+	if('object' == typeof options.excluded && 0 < options.excluded.length) {
+		for(var i = 0; i < options.excluded.length; i++) {
+			if(overflowing == options.excluded[i]) {
+				return true;
+			}
+		}
+	}
+	
     // use default if there's no overflowing
     // element or default action is prevented   
     // or it's a zooming event with CTRL 
