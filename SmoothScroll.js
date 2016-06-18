@@ -57,6 +57,14 @@ var observer;
 var refreshSize;
 var deltaBuffer = [];
 var isMac = /^Mac/.test(navigator.platform);
+var userAgent = window.navigator.userAgent;
+var isEdge    = /Edge/.test(userAgent); // thank you MS
+var isChrome  = /chrome/i.test(userAgent) && !isEdge; 
+var isSafari  = /safari/i.test(userAgent) && !isEdge; 
+var isMobile  = /mobile/i.test(userAgent);
+var isIEWin7  = /Windows NT 6.1/i.test(userAgent) && /rv:11/i.test(userAgent);
+var isEnabledForBrowser = (isChrome || isSafari || isIEWin7) && !isMobile;
+var wheelEvent;
 
 var key = { left: 37, up: 38, right: 39, down: 40, spacebar: 32, 
             pageup: 33, pagedown: 34, end: 35, home: 36 };
@@ -158,6 +166,22 @@ function init() {
     if (!options.fixedBackground && !isExcluded) {
         body.style.backgroundAttachment = 'scroll';
         html.style.backgroundAttachment = 'scroll';
+    }
+}
+
+/**
+ * Attaches event listeners
+ */
+function start() {
+    if ('onwheel' in document.createElement('div'))
+        wheelEvent = 'wheel';
+    else if ('onmousewheel' in document.createElement('div'))
+        wheelEvent = 'mousewheel';
+
+    if (wheelEvent && isEnabledForBrowser) {
+        addEvent(wheelEvent, wheel);
+        addEvent('mousedown', mousedown);
+        addEvent('load', init);
     }
 }
 
@@ -679,31 +703,6 @@ function pulse(x) {
 
 
 /***********************************************
- * FIRST RUN
- ***********************************************/
-
-var userAgent = window.navigator.userAgent;
-var isEdge    = /Edge/.test(userAgent); // thank you MS
-var isChrome  = /chrome/i.test(userAgent) && !isEdge; 
-var isSafari  = /safari/i.test(userAgent) && !isEdge; 
-var isMobile  = /mobile/i.test(userAgent);
-var isIEWin7  = /Windows NT 6.1/i.test(userAgent) && /rv:11/i.test(userAgent);
-var isEnabledForBrowser = (isChrome || isSafari || isIEWin7) && !isMobile;
-
-var wheelEvent;
-if ('onwheel' in document.createElement('div'))
-    wheelEvent = 'wheel';
-else if ('onmousewheel' in document.createElement('div'))
-    wheelEvent = 'mousewheel';
-
-if (wheelEvent && isEnabledForBrowser) {
-    addEvent(wheelEvent, wheel);
-    addEvent('mousedown', mousedown);
-    addEvent('load', init);
-}
-
-
-/***********************************************
  * PUBLIC INTERFACE
  ***********************************************/
 
@@ -713,9 +712,22 @@ function SmoothScroll(optionsToSet) {
             options[key] = optionsToSet[key];
 }
 SmoothScroll.destroy = cleanup;
+SmoothScroll.start = start;
+
+
+/***********************************************
+ * FIRST RUN
+ ***********************************************/
+
+SmoothScroll.start();
 
 if (window.SmoothScrollOptions) // async API
     SmoothScroll(window.SmoothScrollOptions);
+
+
+/***********************************************
+ * DEPENDENCY MANAGEMENT EXPORT
+ ***********************************************/
 
 if (typeof define === 'function' && define.amd)
     define(function() {
