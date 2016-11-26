@@ -38,7 +38,6 @@ var defaultOptions = {
     arrowScroll       : 50,    // [px]
 
     // Other
-    touchpadSupport   : false, // ignore touchpad by default
     fixedBackground   : true, 
     excluded          : ''    
 };
@@ -349,7 +348,7 @@ function wheel(event) {
     }
     
     // check if it's a touchpad scroll that should be ignored
-    if (!options.touchpadSupport && isTouchpad(deltaY)) {
+    if (isTouchpad(deltaY)) {
         return true;
     }
 
