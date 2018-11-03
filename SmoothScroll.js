@@ -561,7 +561,7 @@ function removeEvent(type, fn) {
 }
 
 function isNodeName(el, tag) {
-    return (el.nodeName||'').toLowerCase() === tag.toLowerCase();
+    return el && (el.nodeName||'').toLowerCase() === tag.toLowerCase();
 }
 
 function directionCheck(x, y) {
