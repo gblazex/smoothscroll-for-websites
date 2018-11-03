@@ -445,6 +445,8 @@ function keydown(event) {
             y = clientHeight * 0.9;
             break;
         case key.home:
+            if (overflowing == document.body && document.scrollingElement)
+                overflowing = document.scrollingElement;
             y = -overflowing.scrollTop;
             break;
         case key.end:
