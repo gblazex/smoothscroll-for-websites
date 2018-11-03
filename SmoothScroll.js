@@ -214,8 +214,16 @@ function scrollArray(elem, left, top) {
         return;
     }  
 
-    var scrollWindow = (elem === document.body);
+    var scrollRoot = getScrollRoot();
+    var isWindowScroll = (elem === scrollRoot);
     
+    // if we haven't already fixed the behavior, 
+    // and it needs fixing for this sesh
+    if (elem.$scrollBehavior == null && isScrollBehaviorSmooth(elem)) {
+        elem.$scrollBehavior = elem.style.scrollBehavior;
+        elem.style.scrollBehavior = 'auto';
+    }
+
     var step = function (time) {
         
         var now = Date.now();
@@ -255,7 +263,7 @@ function scrollArray(elem, left, top) {
         }
 
         // scroll left and top
-        if (scrollWindow) {
+        if (isWindowScroll) {
             window.scrollBy(scrollX, scrollY);
         } 
         else {
@@ -272,6 +280,11 @@ function scrollArray(elem, left, top) {
             requestFrame(step, elem, (1000 / options.frameRate + 1)); 
         } else { 
             pending = false;
+            // restore default behavior at the end of scrolling sesh
+            if (elem.$scrollBehavior != null) {
+                elem.style.scrollBehavior = elem.$scrollBehavior;
+                elem.$scrollBehavior = null;
+            }
         }
     };
     
@@ -491,13 +504,14 @@ var uniqueID = (function () {
 var cacheX = {}; // cleared out after a scrolling session
 var cacheY = {}; // cleared out after a scrolling session
 var clearCacheTimer;
+var smoothBehaviorForElement = {};
 
 //setInterval(function () { cache = {}; }, 10 * 1000);
 
 function scheduleClearCache() {
     clearTimeout(clearCacheTimer);
     clearCacheTimer = setInterval(function () { 
-        cacheX = cacheY = {}; 
+        cacheX = cacheY = smoothBehaviorForElement = {}; 
     }, 1*1000);
 }
 
@@ -524,7 +538,7 @@ function overflowingAncestor(el) {
     var body = document.body;
     var rootScrollHeight = root.scrollHeight;
     do {
-        var cached = cache[uniqueID(el)];
+        var cached = getCache(el, false);
         if (cached) {
             return setCache(elems, cached);
         }
@@ -556,6 +570,16 @@ function overflowNotHidden(el) {
 function overflowAutoOrScroll(el) {
     var overflow = getComputedStyle(el, '').getPropertyValue('overflow-y');
     return (overflow === 'scroll' || overflow === 'auto');
+}
+
+// for all other elements
+function isScrollBehaviorSmooth(el) {
+    var id = uniqueID(el);
+    if (smoothBehaviorForElement[id] == null) {
+        var scrollBehavior = getComputedStyle(el, '')['scroll-behavior'];
+        smoothBehaviorForElement[id] = ('smooth' == scrollBehavior);
+    }
+    return smoothBehaviorForElement[id];
 }
 
 
