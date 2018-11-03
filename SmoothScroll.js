@@ -488,20 +488,28 @@ var uniqueID = (function () {
     };
 })();
 
-var cache = {}; // cleared out after a scrolling session
+var cacheX = {}; // cleared out after a scrolling session
+var cacheY = {}; // cleared out after a scrolling session
 var clearCacheTimer;
 
 //setInterval(function () { cache = {}; }, 10 * 1000);
 
 function scheduleClearCache() {
     clearTimeout(clearCacheTimer);
-    clearCacheTimer = setInterval(function () { cache = {}; }, 1*1000);
+    clearCacheTimer = setInterval(function () { 
+        cacheX = cacheY = {}; 
+    }, 1*1000);
 }
 
-function setCache(elems, overflowing) {
+function setCache(elems, overflowing, x) {
+    var cache = x ? cacheX : cacheY;
     for (var i = elems.length; i--;)
         cache[uniqueID(elems[i])] = overflowing;
     return overflowing;
+}
+
+function getCache(el, x) {
+    return (x ? cacheX : cacheY)[uniqueID(el)];
 }
 
 //  (body)                (root)
