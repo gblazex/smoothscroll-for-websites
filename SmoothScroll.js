@@ -596,7 +596,8 @@ function isTouchpad(deltaY) {
             localStorage.SS_deltaBuffer = deltaBuffer.join(',');
         } catch (e) { }  
     }, 1000);
-    return !allDeltasDivisableBy(120) && !allDeltasDivisableBy(100);
+    var dpiScaledWheelDelta = deltaY > 120 && allDeltasDivisableBy(deltaY); // win64 
+    return !allDeltasDivisableBy(120) && !allDeltasDivisableBy(100) && !dpiScaledWheelDelta;
 } 
 
 function isDivisible(n, divisor) {
