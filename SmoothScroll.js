@@ -639,7 +639,7 @@ var MutationObserver = (window.MutationObserver ||
                         window.MozMutationObserver);  
 
 var getScrollRoot = (function() {
-  var SCROLL_ROOT;
+  var SCROLL_ROOT = document.scrollingElement;
   return function() {
     if (!SCROLL_ROOT) {
       var dummy = document.createElement('div');
