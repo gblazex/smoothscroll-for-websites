@@ -55,6 +55,7 @@ var activeElement;
 var observer;
 var refreshSize;
 var deltaBuffer = [];
+var deltaBufferTimer;
 var isMac = /^Mac/.test(navigator.platform);
 
 var key = { left: 37, up: 38, right: 39, down: 40, spacebar: 32, 
@@ -528,7 +529,7 @@ function overflowingAncestor(el) {
         } else if (isContentOverflowing(el) && overflowAutoOrScroll(el)) {
             return setCache(elems, el);
         }
-    } while (el = el.parentElement);
+    } while ((el = el.parentElement));
 }
 
 function isContentOverflowing(el) {
@@ -575,8 +576,6 @@ function directionCheck(x, y) {
     }
 }
 
-var deltaBufferTimer;
-
 if (window.localStorage && localStorage.SS_deltaBuffer) {
     try { // #46 Safari throws in private browsing for localStorage 
         deltaBuffer = localStorage.SS_deltaBuffer.split(',');
@@ -618,7 +617,7 @@ function isInsideYoutubeVideo(event) {
             isControl = (elem.classList && 
                          elem.classList.contains('html5-video-controls'));
             if (isControl) break;
-        } while (elem = elem.parentNode);
+        } while ((elem = elem.parentNode));
     }
     return isControl;
 }
