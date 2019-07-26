@@ -447,7 +447,15 @@ function keydown(event) {
         case 'ArrowDown':
             y = options.arrowScroll;
             break;         
-        case '(Space character)' || 'Spacebar' || ' ': // (+ shift)
+        case '(Space character)': // (+ shift)
+            shift = event.shiftKey ? 1 : -1;
+            y = -shift * clientHeight * 0.9;
+            break;
+        case 'Spacebar': // (+ shift)
+            shift = event.shiftKey ? 1 : -1;
+            y = -shift * clientHeight * 0.9;
+            break;
+        case ' ': // (+ shift)
             shift = event.shiftKey ? 1 : -1;
             y = -shift * clientHeight * 0.9;
             break;
