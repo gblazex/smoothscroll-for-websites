@@ -389,7 +389,7 @@ function keydown(event) {
 
     var target   = event.target;
     var modifier = event.ctrlKey || event.altKey || event.metaKey || 
-                  (event.shiftKey && event.key !== key.spacebar);
+                  (event.shiftKey && event.key !== (event.key === '(Space character)' || event.key === 'Spacebar' || event.key === ' '));
     
     // our own tracked active element could've been removed from the DOM
     if (!document.body.contains(activeElement)) {
