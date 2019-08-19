@@ -1,6 +1,6 @@
 {
   "name": "smoothscroll-for-websites",
-  "version": "1.4.9",
+  "version": "1.4.10",
   "description": "Smooth scrolling experience for websites. This is the standalone version of SmoothScroll for individual websites and themes. Mouse wheel, keyboard and touchpad scrolling all supported.",
   "main": "SmoothScroll.js",
   "scripts": {
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/galambalazs/smoothscroll-for-websites.git"
+    "url": "https://github.com/gblazex/smoothscroll-for-websites.git"
   },
   "keywords": [
     "smooth",
@@ -24,9 +24,9 @@
   "author": "Balazs Galambosi (https://www.smoothscroll.net)",
   "license": "SEE LICENSE IN ./LICENSE",
   "bugs": {
-    "url": "https://github.com/galambalazs/smoothscroll-for-websites/issues"
+    "url": "https://github.com/gblazex/smoothscroll-for-websites/issues"
   },
-  "homepage": "https://github.com/galambalazs/smoothscroll-for-websites",
+  "homepage": "https://github.com/gblazex/smoothscroll-for-websites",
   "devDependencies": {
     "uglify-js": "^2.6.1"
   }
