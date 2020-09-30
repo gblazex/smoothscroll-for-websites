@@ -1,6 +1,6 @@
-Smooth scrolling experience for websites.
+# Smooth scrolling experience for websites.
 
-This is the standalone version of SmoothScroll for individual websites and themes.
+### This is the standalone version of SmoothScroll for individual websites and themes.
 
 Also available as a Mac app
   http://www.smoothscroll.net/mac/
@@ -11,7 +11,7 @@ Or as a Chrome extension
 And Opera extension
   https://addons.opera.com/extensions/details/smoothscroll-3/
 
-Features
+### Features
 - Picasa-like smooth scrolling
 - Mouse wheel, middle mouse and keyboard support
 - Arrow keys, PgUp/PgDown, Spacebar, Home/End
@@ -20,23 +20,23 @@ Features
 - Full touchpad support
 - Excluded pages list
 
-People involved
+### People involved
 - Balazs Galambosi (maintainer)
 - Michael Herf     (pulse algorithm)
 
                                   - - - - - - - - 
 
-INSTALL
+### INSTALL
 
-Package managers:
-  npm install smoothscroll-for-websites
-  bower install --save smoothscroll-for-websites
+* Package managers:
+  *npm install smoothscroll-for-websites
+  bower install --save smoothscroll-for-websites Or
 
-Or grab the latest version from cdnjs (minified version also available): 
+  * grab the latest version from cdnjs (minified version also available): 
   https://cdnjs.com/libraries/smoothscroll
 
                                   - - - - - - - - 
 
-API
+### API
 
-See the Wiki: https://github.com/gblazex/smoothscroll-for-websites/wiki
+* See the Wiki: https://github.com/gblazex/smoothscroll-for-websites/wiki
