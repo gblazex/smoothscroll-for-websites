@@ -742,10 +742,9 @@ function pulse(x) {
  ***********************************************/
 
 // Safari (Safari Position - No Signal)
-var isOldSafari = false;
-
 if ('userAgentData' in navigator) {
     var isSafari  = false;
+    var isOldSafari = false;
 
     for (let i = 0; i < window.navigator.userAgentData.brands.length; i++) {
         if (window.navigator.userAgentData.brands[i].brand === 'Safari') {
