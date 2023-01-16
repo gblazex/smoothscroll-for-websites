@@ -1,5 +1,5 @@
 //
-// SmoothScroll for websites v1.4.10 (Balazs Galambosi)
+// SmoothScroll for websites v1.4.11 (Balazs Galambosi)
 // http://www.smoothscroll.net/
 //
 // Licensed under the terms of the MIT license.
@@ -44,7 +44,6 @@ var defaultOptions = {
 
 var options = defaultOptions;
 
-
 // Other Variables
 var isExcluded = false;
 var isFrame = false;
@@ -56,7 +55,13 @@ var observer;
 var refreshSize;
 var deltaBuffer = [];
 var deltaBufferTimer;
-var isMac = /^Mac/.test(navigator.platform);
+
+// Mac
+if ('userAgentData' in navigator) {
+    var isMac = /^Mac/i.test(window.navigator.userAgentData.platform);
+} else {
+    var isMac = /^Mac/i.test(window.navigator.platform);
+}
 
 var key = { left: 37, up: 38, right: 39, down: 40, spacebar: 32, 
             pageup: 33, pagedown: 34, end: 35, home: 36 };
@@ -353,7 +358,7 @@ function wheel(event) {
     if (!overflowing) {
         // except Chrome iframes seem to eat wheel events, which we need to 
         // propagate up, if the iframe has nothing overflowing to scroll
-        if (isFrame && isChrome)  {
+        if (isFrame && isChromium)  {
             // change target to iframe element itself for the parent frame
             Object.defineProperty(event, "target", {value: window.frameElement});
             return parent.wheel(event);
@@ -431,7 +436,7 @@ function keydown(event) {
     if (!overflowing) {
         // Chrome iframes seem to eat key events, which we need to 
         // propagate up, if the iframe has nothing overflowing to scroll
-        return (isFrame && isChrome) ? parent.keydown(event) : true;
+        return (isFrame && isChromium) ? parent.keydown(event) : true;
     }
 
     var clientHeight = overflowing.clientHeight; 
@@ -736,14 +741,46 @@ function pulse(x) {
  * FIRST RUN
  ***********************************************/
 
-var userAgent = window.navigator.userAgent;
-var isEdge    = /Edge/.test(userAgent); // thank you MS
-var isChrome  = /chrome/i.test(userAgent) && !isEdge; 
-var isSafari  = /safari/i.test(userAgent) && !isEdge; 
-var isMobile  = /mobile/i.test(userAgent);
-var isIEWin7  = /Windows NT 6.1/i.test(userAgent) && /rv:11/i.test(userAgent);
-var isOldSafari = isSafari && (/Version\/8/i.test(userAgent) || /Version\/9/i.test(userAgent));
-var isEnabledForBrowser = (isChrome || isSafari || isIEWin7) && !isMobile;
+// Safari (Safari Position - No Signal)
+if ('userAgentData' in navigator) {
+    var isSafari  = false;
+    var isOldSafari = false;
+
+    for (let i = 0; i < window.navigator.userAgentData.brands.length; i++) {
+        if (window.navigator.userAgentData.brands[i].brand === 'Safari') {
+            var isSafari = true;
+
+            if (window.navigator.userAgentData.brands[i].version <= 9) {
+                var isOldSafari = true;
+            }
+        };
+    }
+} else {
+    var isSafari  = /safari/i.test(window.navigator.userAgent);
+    var isOldSafari = isSafari && (/Version\/8/i.test(window.navigator.userAgent) || /Version\/9/i.test(window.navigator.userAgent));
+}
+
+// Chromium (supported since version 90)
+if ('userAgentData' in navigator) {
+    var isChromium  = false;
+
+    for (let i = 0; i < window.navigator.userAgentData.brands.length; i++) {
+        if (window.navigator.userAgentData.brands[i].brand === 'Chromium') {
+            var isChromium = true;
+        };
+    }
+} else {
+    var isChromium  = /chrome/i.test(window.navigator.userAgent);
+}
+
+// Mobile (caniuse support 70%)
+if ('userAgentData' in navigator) {
+    var isMobile  = window.navigator.userAgentData.mobile;
+} else {
+    var isMobile  = /mobile/i.test(window.navigator.userAgent); 
+}
+
+var isEnabledForBrowser = (isChromium || isSafari) && !isMobile;
 
 var supportsPassive = false;
 try {
