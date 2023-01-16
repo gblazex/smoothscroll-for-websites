@@ -742,13 +742,18 @@ function pulse(x) {
  ***********************************************/
 
 // Safari (Safari Position - No Signal)
+var isOldSafari = false;
+
 if ('userAgentData' in navigator) {
     var isSafari  = false;
 
     for (let i = 0; i < window.navigator.userAgentData.brands.length; i++) {
         if (window.navigator.userAgentData.brands[i].brand === 'Safari') {
             var isSafari = true;
-            var isOldSafari = isSafari && (window.navigator.userAgentData.brands[i].version < 9);
+
+            if (window.navigator.userAgentData.brands[i].version < 9) {
+                var isOldSafari = true;
+            }
         };
     }
 } else {
