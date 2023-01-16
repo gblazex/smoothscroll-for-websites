@@ -751,7 +751,7 @@ if ('userAgentData' in navigator) {
         if (window.navigator.userAgentData.brands[i].brand === 'Safari') {
             var isSafari = true;
 
-            if (window.navigator.userAgentData.brands[i].version < 9) {
+            if (window.navigator.userAgentData.brands[i].version <= 9) {
                 var isOldSafari = true;
             }
         };
