@@ -748,10 +748,12 @@ if ('userAgentData' in navigator) {
     for (let i = 0; i < window.navigator.userAgentData.brands.length; i++) {
         if (window.navigator.userAgentData.brands[i].brand === 'Safari') {
             var isSafari = true;
+            var isOldSafari = isSafari && (window.navigator.userAgentData.brands[i].version < 9);
         };
     }
 } else {
     var isSafari  = /safari/i.test(window.navigator.userAgent);
+    var isOldSafari = isSafari && (/Version\/8/i.test(window.navigator.userAgent) || /Version\/9/i.test(window.navigator.userAgent));
 }
 
 // Chromium (supported since version 90)
