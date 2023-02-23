@@ -58,9 +58,9 @@ var deltaBuffer = [];
 var deltaBufferTimer;
 var isMac = /^Mac/.test(navigator.platform);
 
-var key = { left: 37, up: 38, right: 39, down: 40, spacebar: 32, 
-            pageup: 33, pagedown: 34, end: 35, home: 36 };
-var arrowKeys = { 37: 1, 38: 1, 39: 1, 40: 1 };
+var key = { left: 'ArrowLeft', up: 'ArrowUp', right: 'ArrowRight', down: 'ArrowDown', spacebar: ' ', 
+            pageup: 'PageUp', pagedown: 'PageDown', end: 'End', home: 'Home' };
+var arrowKeys = { ArrowLeft: 1, ArrowUp: 1, ArrowRight: 1, ArrowDown: 1 };
 
 /***********************************************
  * INITIALIZE
@@ -389,7 +389,7 @@ function keydown(event) {
 
     var target   = event.target;
     var modifier = event.ctrlKey || event.altKey || event.metaKey || 
-                  (event.shiftKey && event.keyCode !== key.spacebar);
+                  (event.shiftKey && event.key !== key.spacebar);
     
     // our own tracked active element could've been removed from the DOM
     if (!document.body.contains(activeElement)) {
@@ -415,13 +415,13 @@ function keydown(event) {
     // [spacebar] should trigger button press, leave it alone
     if ((isNodeName(target, 'button') ||
          isNodeName(target, 'input') && buttonTypes.test(target.type)) &&
-        event.keyCode === key.spacebar) {
+        event.key === key.spacebar) {
       return true;
     }
 
     // [arrwow keys] on radio buttons should be left alone
     if (isNodeName(target, 'input') && target.type == 'radio' &&
-        arrowKeys[event.keyCode])  {
+        arrowKeys[event.key])  {
       return true;
     }
     
@@ -440,7 +440,7 @@ function keydown(event) {
         clientHeight = window.innerHeight;
     }
 
-    switch (event.keyCode) {
+    switch (event.key) {
         case key.up:
             y = -options.arrowScroll;
             break;
