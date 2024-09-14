@@ -319,6 +319,24 @@ function wheel(event) {
         return true;
     }
 
+    // TODO:
+    //
+    // wheelDeltaY (DEPRECATED):
+    //   - Mac: positive (+) for scrolling down; Win: negative (-) for up
+    //   - Mac & Win: in simple case multiple of 120 or 100 (except Firefox maybe)
+    //   - scaled by zoom level (hard to detect, devicePixelRatio affected by ppi)
+    // deltaY (NEW):
+    //   - Mac: negative (-) for scrolling down; Win: positive (+) for up
+    //   - Win: in simple case it's multiple of 300
+    //   - Mac: can be any number because of default shitty "acceleration"
+    //          some third party apps might change it to line-based (120x)
+    //   - scaled by zoom level (hard to detect, devicePixelRatio affected by ppi)
+    //
+    // For touchpad in Chromium this seems to hold true: 
+    //    e.wheelDeltaY === (e.deltaY * -3)
+    // but it also holds for mouses on Safari Mac with default "acceleration".
+    // Also not future-proof because wheelDeltaY is deprecated
+
     var deltaX = -event.wheelDeltaX || event.deltaX || 0;
     var deltaY = -event.wheelDeltaY || event.deltaY || 0;
     
