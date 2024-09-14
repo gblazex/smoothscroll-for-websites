@@ -58,10 +58,6 @@ var deltaBuffer = [];
 var deltaBufferTimer;
 var isMac = /^Mac/.test(navigator.platform);
 
-var key = { left: 37, up: 38, right: 39, down: 40, spacebar: 32, 
-            pageup: 33, pagedown: 34, end: 35, home: 36 };
-var arrowKeys = { 37: 1, 38: 1, 39: 1, 40: 1 };
-
 /***********************************************
  * INITIALIZE
  ***********************************************/
@@ -389,7 +385,7 @@ function keydown(event) {
 
     var target   = event.target;
     var modifier = event.ctrlKey || event.altKey || event.metaKey || 
-                  (event.shiftKey && event.keyCode !== key.spacebar);
+                  (event.shiftKey && event.code !== 'Space');
     
     // our own tracked active element could've been removed from the DOM
     if (!document.body.contains(activeElement)) {
@@ -415,13 +411,14 @@ function keydown(event) {
     // [spacebar] should trigger button press, leave it alone
     if ((isNodeName(target, 'button') ||
          isNodeName(target, 'input') && buttonTypes.test(target.type)) &&
-        event.keyCode === key.spacebar) {
+        event.code === 'Space') {
       return true;
     }
 
-    // [arrwow keys] on radio buttons should be left alone
+    // [arrow keys] on radio buttons should be left alone
     if (isNodeName(target, 'input') && target.type == 'radio' &&
-        arrowKeys[event.keyCode])  {
+        (event.code === 'ArrowUp' || event.code === 'ArrowDown' || 
+         event.code === 'ArrowLeft' || event.code === 'ArrowRight'))  {
       return true;
     }
     
@@ -440,37 +437,37 @@ function keydown(event) {
         clientHeight = window.innerHeight;
     }
 
-    switch (event.keyCode) {
-        case key.up:
+    switch (event.code) {
+        case 'ArrowUp':
             y = -options.arrowScroll;
             break;
-        case key.down:
+        case 'ArrowDown':
             y = options.arrowScroll;
             break;         
-        case key.spacebar: // (+ shift)
+        case 'Space':
             shift = event.shiftKey ? 1 : -1;
             y = -shift * clientHeight * 0.9;
             break;
-        case key.pageup:
+        case 'PageUp':
             y = -clientHeight * 0.9;
             break;
-        case key.pagedown:
+        case 'PageDown':
             y = clientHeight * 0.9;
             break;
-        case key.home:
+        case 'Home':
             if (overflowing == document.body && document.scrollingElement)
                 overflowing = document.scrollingElement;
             y = -overflowing.scrollTop;
             break;
-        case key.end:
+        case 'End':
             var scroll = overflowing.scrollHeight - overflowing.scrollTop;
             var scrollRemaining = scroll - clientHeight;
             y = (scrollRemaining > 0) ? scrollRemaining + 10 : 0;
             break;
-        case key.left:
+        case 'ArrowLeft':
             x = -options.arrowScroll;
             break;
-        case key.right:
+        case 'ArrowRight':
             x = options.arrowScroll;
             break;            
         default:
