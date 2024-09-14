@@ -635,11 +635,11 @@ function directionCheck(x, y) {
     }
 }
 
-if (window.localStorage && localStorage.SS_deltaBuffer) {
-    try { // #46 Safari throws in private browsing for localStorage 
+try { // #46 Safari throws in private browsing for localStorage 
+    if (localStorage.SS_deltaBuffer) {
         deltaBuffer = localStorage.SS_deltaBuffer.split(',');
-    } catch (e) { } 
-}
+    }
+} catch (e) { } 
 
 function isTouchpad(deltaY) {
     if (!deltaY) return;
