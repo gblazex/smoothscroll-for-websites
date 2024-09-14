@@ -304,7 +304,7 @@ function wheel(event) {
         init();
     }
     
-    var target = event.target;
+    var target = getEventTargetDeep(event);
 
     // leave early if default action is prevented   
     // or it's a zooming event with CTRL 
@@ -383,7 +383,7 @@ function wheel(event) {
  */
 function keydown(event) {
 
-    var target   = event.target;
+    var target = getEventTargetDeep(event);
     var modifier = event.ctrlKey || event.altKey || event.metaKey || 
                   (event.shiftKey && event.code !== 'Space');
     
@@ -483,7 +483,16 @@ function keydown(event) {
  * Mousedown event only for updating activeElement
  */
 function mousedown(event) {
-    activeElement = event.target;
+    activeElement = getEventTargetDeep(event);
+}
+
+/**
+ * Get the deepest event target even through shadow DOM.
+ * @param {Object} event
+ * @return {Element}
+ */
+function getEventTargetDeep(event) {
+    return event.composedPath ? event.composedPath()[0] : event.target;
 }
 
 
@@ -644,7 +653,7 @@ function allDeltasDivisableBy(divisor) {
 }
 
 function isInsideYoutubeVideo(event) {
-    var elem = event.target;
+    var elem = getEventTargetDeep(event);
     var isControl = false;
     if (document.URL.indexOf ('www.youtube.com/watch') != -1) {
         do {
