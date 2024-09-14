@@ -315,8 +315,7 @@ function wheel(event) {
     // leave embedded content alone (flash & pdf)
     if (isNodeName(activeElement, 'embed') || 
        (isNodeName(target, 'embed') && /\.pdf/i.test(target.src)) ||
-        isNodeName(activeElement, 'object') ||
-        target.shadowRoot) {
+        isNodeName(activeElement, 'object')) {
         return true;
     }
 
@@ -543,7 +542,7 @@ function overflowingAncestor(el) {
     var elems = [];
     var body = document.body;
     var rootScrollHeight = root.scrollHeight;
-    do {
+    while (el) {
         var cached = getCache(el, false);
         if (cached) {
             return setCache(elems, cached);
@@ -559,7 +558,9 @@ function overflowingAncestor(el) {
         } else if (isContentOverflowing(el) && overflowAutoOrScroll(el)) {
             return setCache(elems, el);
         }
-    } while ((el = el.parentElement));
+        // Support shadow DOM
+        el = el.parentElement || (el.getRootNode && el.getRootNode().host); 
+    }
 }
 
 function isContentOverflowing(el) {
