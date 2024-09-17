@@ -39,7 +39,8 @@ var defaultOptions = {
 
     // Other
     fixedBackground   : true, 
-    excluded          : ''    
+    excluded          : '',
+    callback          : null
 };
 
 var options = defaultOptions;
@@ -389,6 +390,10 @@ function wheel(event) {
         deltaY *= options.stepSize / 120;
     }
     
+    // If a callback is set, call it passing the triggering event as parameter
+    if (options.callback) {
+        options.callback(event);
+    }
     scrollArray(overflowing, deltaX, deltaY);
     event.preventDefault();
     scheduleClearCache();
@@ -491,6 +496,10 @@ function keydown(event) {
             return true; // a key we don't care about
     }
 
+    // If a callback is set, call it passing the triggering event as parameter
+    if (options.callback) {
+        options.callback(event);
+    }
     scrollArray(overflowing, x, y);
     event.preventDefault();
     scheduleClearCache();
